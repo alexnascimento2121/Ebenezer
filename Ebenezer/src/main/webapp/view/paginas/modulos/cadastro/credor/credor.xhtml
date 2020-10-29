@@ -1,0 +1,94 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">
+		<h:form id="frmMVD" enctype="multipart/form-data">
+			<p:panel header="Cadastro > CREDOR">
+				<p:toolbar style="background: #FFFFFF !important; color: #000000 !important; font-size: 12px !important;">
+					<f:facet name="left">
+						<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgCredor').show(); PF('dlgCredor').initPosition();" 
+						actionListener="#{credorController.novo}" update=":msgGlobal FormCadCredor" 
+						styleClass="btn-primary" onfocus="nomeReceita" />
+					</f:facet>
+
+				</p:toolbar>
+				<p></p>
+
+				<p:dataTable id="tabela" value="#{credorController.listaCredor}" 
+				filteredValue="#{credorController.listaCredorFiltrados}" var="credor" style="text-align: center;" 
+				emptyMessage="Nenhum credor encontrado" reflow="true">
+
+					<p:column headerText="Código" width="10%">
+						<h:outputText value="#{credor.id}" />
+					</p:column>
+
+					<p:column headerText="Nome" width="30%" filterBy="#{credor.pessoa.nomeReceita}" styleClass="ui-fluid">
+						<h:outputText value="#{credor.pessoa.nomeReceita}" />
+					</p:column>
+					
+					<p:column headerText="CPF/CNPJ" width="15%" filterBy="#{credor.pessoa.cpfCnpj}" styleClass="ui-fluid">
+						<h:outputText value="#{credor.pessoa.cpfCnpj}" />
+					</p:column>
+					
+					<p:column headerText="Cadastro" width="15%" sortBy="#{credor.dataCadastro}">
+						<h:outputText value="#{credor.dataCadastro}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Opção" width="5%">
+						<p:commandButton icon="ui-icon-pencil"	actionListener="#{credorController.editar}" update=":FormCadCredor" 
+						oncomplete="PF('dlgCredor').show(); PF('dlgCredor').initPosition();" styleClass="btn-warning" >
+							<f:attribute name="credorSelecionado" value="#{credor}" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+	<p:dialog header="Cadastro de credor(a)" widgetVar="dlgCredor" draggable="true" resizable="false" modal="true" closable="true" 
+	appendTo="@(body)" styleClass="telaTamanhoMedio" responsive="true" focus="FormCadCredor:nomeReceita">
+		<h:form id="FormCadCredor">
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-9" styleClass="ui-fluid ui-panelgrid-blank">
+				<h:panelGroup>		
+					<p:outputLabel value="CPF/CNPJ:"  styleClass="saidanegrito"/>
+					<p:inputText  maxlength="18" value="#{credorController.credor.pessoa.cpfCnpj}" 
+					onkeypress="mascara(this, cpfCnpj);" required="true" requiredMessage="O Campo CPF/CNPJ é Obrigatório!"  >
+						<p:ajax event="blur" listener="#{credorController.pesquisaCpfCnpj}" update=":msgGlobal FormCadCredor" 
+						oncomplete="PF('dlgCredor').initPosition()"/> 
+					</p:inputText>	
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel for="nomeReceita" value="Nome:" styleClass="saidanegrito" />
+					<p:inputText id="nomeReceita" maxlength="150" value="#{credorController.credor.pessoa.nomeReceita}"
+						required="true" requiredMessage="O Campo Nome é Obrigatório!" />
+				</h:panelGroup>
+				
+			</p:panelGrid>	
+			
+			<ui:include src="./pessoaFisica.xhtml" />
+			<ui:include src="./pessoaJuridica.xhtml" />
+			
+			<p></p>
+			<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+				<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{credorController.salvarCredor}"	
+					update=":msgGlobal :frmMVD :FormCadCredor" styleClass="btn-success"/> 
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+	
+	<ui:include src="./cadastroRapido.xhtml" />
+
+	</ui:define>
+</ui:composition>

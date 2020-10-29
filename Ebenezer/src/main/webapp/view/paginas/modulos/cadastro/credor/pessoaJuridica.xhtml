@@ -1,0 +1,156 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-panelgrid-blank"
+		rendered="#{credorController.credor.pessoa.cpfCnpj.length() == 18}">
+		<p:panel header="Pessoa Juridica">
+			
+			<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-6" 
+			styleClass="ui-fluid ui-panelgrid-blank">
+
+				<h:panelGroup>
+					<p:outputLabel value="Data que Foi instituída:" styleClass="saidanegrito" />
+					<p:calendar locale="de" navigator="true" pattern="dd/MM/yyyy"
+						value="#{credorController.credor.pessoa.dataNascimento}" required="true" 
+						requiredMessage="O Campo Data de Nascimento é Obirgatório!">
+					</p:calendar>
+				</h:panelGroup>
+
+				<h:panelGroup>
+					<p:outputLabel value="Inscrição Estadual:" styleClass="saidanegrito" />
+					<p:inputText maxlength="25"	value="#{credorController.credorPJ.pessoaJuridica.numeroInscricaoEstadual}" 
+					required="true"	requiredMessage="O Campo Inscrição Estadual é Obrigatório!" />
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Telefone:" styleClass="saidanegrito" />
+					<p:inputText maxlength="20" value="#{credorController.credor.pessoa.telefone}"
+						required="true"	requiredMessage="O Campo Telefone é Obrigatório!" />
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="E-mail: " styleClass="saidanegrito" />
+					<p:inputText maxlength="250" value="#{credorController.credor.pessoa.email}"
+						required="true"	requiredMessage="O Campo E-mail é Obrigatório!" />
+				</h:panelGroup>
+			
+			</p:panelGrid>	
+			<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">	
+				
+				<h:panelGroup id="selectCnae">
+					<p:outputLabel value="Cnae: " styleClass="saidanegrito" />
+					<div class="grupoCadastroRapido">
+						<p:selectOneMenu filter="true" value="#{credorController.credorPJ.pessoaJuridica.cnae}" 
+						converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="O Campo Cnae é Obrigatório!">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione um Cnae " />
+							<f:selectItems value="#{credorController.listaCnae}" var="cnae" itemValue="#{cnae}" 
+							itemLabel="#{cnae.descricao}" />
+						</p:selectOneMenu>
+						<p:commandButton id="idCnae" icon="fa fa-plus" oncomplete="PF('dlgCnae').show();"
+							actionListener="#{credorController.novoCnae}" update=":msgGlobal FormCadCnae" immediate="true"
+							styleClass="btn-primary botaoCadastroRapido" />
+						<p:tooltip for="idCnae" value="Novo Cnae" position="top" />
+					</div>
+				</h:panelGroup>
+
+			</p:panelGrid>
+			
+			<p></p>
+			<p:panel header="Representantes">
+				<p:panelGrid id="pnlRepresentante" columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-panelgrid-blank">
+					
+					<p:commandButton icon="fa fa-plus" value="Incluir Representante" oncomplete="PF('dlgRepresentate').show();" 
+					actionListener="#{credorController.novoRepresentante}" update=":msgGlobal FormCadRepresentate" immediate="true" 
+					styleClass="btn-primary" />
+					
+					<p:dataTable value="#{credorController.listaRepresentante}" var="representante" 
+					emptyMessage="nenhum representante adicionado" style="text-align: center;">
+						
+						<p:column headerText="CPF" width="20%">
+							<h:outputText value="#{representante.pessoaFisica.pessoa.cpfCnpj}" />
+						</p:column>
+						
+						<p:column headerText="Nome" width="40%">
+							<h:outputText value="#{representante.pessoaFisica.pessoa.nomeReceita}" />
+						</p:column>
+						
+						<p:column headerText="Opções" width="10%">
+							<p:commandButton icon="ui-icon-pencil" actionListener="#{credorController.editarRepresentante}"	
+							update="FormCadRepresentate" oncomplete="PF('dlgRepresentate').show();" styleClass="btn-warning" 
+							immediate="true" title="Editar" rendered="#{credorController.credor.id != null}">
+								<f:attribute name="representanteSelecionado" value="#{representante}" />
+							</p:commandButton>
+							
+							<p:commandButton icon="fa fa-remove" actionListener="#{credorController.excluirRepresentante}"	
+							update="FormCadCredor:pnlRepresentante" styleClass="btn-danger" immediate="true" title="Remover">
+								 <p:confirm header="Confirmation" 
+								 message="Deseja Remover o representante #{representante.pessoaFisica.pessoa.nomeReceita}" 
+								 icon="fa fa-warning" />
+								<f:attribute name="representanteSelecionado" value="#{representante}" />
+							</p:commandButton>
+	
+						</p:column>
+					
+					</p:dataTable>
+				
+				</p:panelGrid>
+			</p:panel>
+			
+			<p></p>
+			<p:panelGrid id="pnlEnderecoPj" columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+				<p:panel header="Endereço">
+					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2"
+						styleClass="ui-fluid ui-panelgrid-blank">
+
+						<h:panelGroup>
+							<p:outputLabel value="CEP:" styleClass="saidanegrito" />
+							<p:inputText maxlength="12"	value="#{credorController.credor.pessoa.cep}"
+								required="true" requiredMessage="O Campo CEP é Obrigatório!">
+								<p:ajax event="blur" listener="#{credorController.consultaCEP(2)}" />
+							</p:inputText>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:outputLabel value="Logradouro:" styleClass="saidanegrito" />
+							<p:inputText maxlength="70" value="#{credorController.credor.pessoa.logradouro}"
+								required="true"	requiredMessage="O Campo Logradouro é Obrigatório!" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:outputLabel value="Número:" styleClass="saidanegrito" />
+							<p:inputText maxlength="10"	value="#{credorController.credor.pessoa.numero}"
+								required="true" requiredMessage="O Campo Número é Obrigatório!"	placeholder="Ex. 1020" />
+						</h:panelGroup>
+
+					</p:panelGrid>
+					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-5,ui-grid-col-5,ui-grid-col-2"
+						styleClass="ui-fluid ui-panelgrid-blank">
+
+						<h:panelGroup>
+							<p:outputLabel value="Bairro:" styleClass="saidanegrito" />
+							<p:inputText maxlength="70"	value="#{credorController.credor.pessoa.bairro}"
+								required="true" requiredMessage="O Campo Bairro é Obrigatório!" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:outputLabel value="Cidade:" styleClass="saidanegrito" />
+							<p:inputText maxlength="70" value="#{credorController.credor.pessoa.cidade}"
+								required="true" requiredMessage="O Campo Cidade é Obrigatório!" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:outputLabel value="Sigla Estado:" styleClass="saidanegrito" />
+							<p:inputText maxlength="3" value="#{credorController.credor.pessoa.estadoSigla}"
+								required="true" requiredMessage="O Campo Sigla Estado é Obrigatório!" />
+						</h:panelGroup>
+
+					</p:panelGrid>
+				</p:panel>
+			</p:panelGrid>
+		</p:panel>
+
+	</p:panelGrid>
+</ui:composition>

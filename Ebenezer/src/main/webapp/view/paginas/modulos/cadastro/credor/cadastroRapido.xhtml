@@ -1,0 +1,417 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog header="Cadastro CNAE- Classificação Nacional de Atividade Econômica" widgetVar="dlgCnae" draggable="true" 
+	resizable="false" modal="true" closable="true" appendTo="@(body)" responsive="true">
+	
+		<h:form id="FormCadCnae">
+			<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+
+				<h:panelGroup>
+					<p:outputLabel value="Descrição: " />
+					<p:inputText maxlength="50"	value="#{credorController.cnae.descricao}" required="true" 
+					requiredMessage="O Campo Descrição é Obrigatório!" />
+				</h:panelGroup>
+
+				<h:panelGroup>
+					<p:outputLabel value="Data de Cadastro: " />
+					<p:inputText maxlength="50"	value="#{credorController.cnae.dataCadastro}" readonly="true">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho" />
+					</p:inputText>
+				</h:panelGroup>
+			</p:panelGrid>
+
+			<p></p>
+			<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+				<p:commandButton value="Gravar" icon="fa fa-check" actionListener="#{credorController.salvarCnae}" 
+				update=":msgGlobal FormCadCredor:selectCnae FormCadCnae" styleClass="btn-success" />
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+	
+	<p:dialog header="Cadastro Profissão" widgetVar="dlgProfissao" draggable="true" resizable="false" modal="true" closable="true" 
+	appendTo="@(body)" responsive="true">
+	
+		<h:form id="FormCadProfissao">
+			<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+
+				<h:panelGroup>
+					<p:outputLabel value="Descrição: " />
+					<p:inputText maxlength="50"	value="#{credorController.profissao.descricao}" required="true" 
+					requiredMessage="O Campo Descrição é Obrigatório!" />
+				</h:panelGroup>
+
+				<h:panelGroup>
+					<p:outputLabel value="Data de Cadastro: " />
+					<p:inputText maxlength="50"	value="#{credorController.profissao.dataCadastro}" readonly="true">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho" />
+					</p:inputText>
+				</h:panelGroup>
+			</p:panelGrid>
+
+			<p></p>
+			<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+				<p:commandButton value="Gravar" icon="fa fa-check" actionListener="#{credorController.salvarProfissao}" 
+				update=":msgGlobal FormCadCredor:selectProfissao FormCadProfissao FormCadRepresentate:selectProfissaoRepresentante" 
+				styleClass="btn-success" />
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+	
+	<p:dialog header="Cadastro de Representante" widgetVar="dlgRepresentate" draggable="true" resizable="false" modal="true" 
+	closable="true" appendTo="@(body)" styleClass="dialogoParecer" responsive="true" focus="FormCadRepresentate:nomeRep">
+		<h:form id="FormCadRepresentate">
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8" styleClass="ui-fluid ui-panelgrid-blank">
+					
+				<h:panelGroup>		
+					<p:outputLabel value="CPF:"  styleClass="saidanegrito"/>
+					<p:inputText maxlength="14" value="#{credorController.representante.pessoaFisica.pessoa.cpfCnpj}" 
+					required="true" requiredMessage="O Campo CPF é Obrigatório!" onkeypress="mascara(this, cpfCnpj);" >
+						<p:ajax event="blur" listener="#{credorController.pesquisaRepresentante}" 
+						update=":msgGlobal FormCadRepresentate" oncomplete="PF('dlgRepresentate').initPosition()" process="@this"/>
+					</p:inputText>
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Nome:" styleClass="saidanegrito"/>
+					<p:inputText id="nomeRep" maxlength="150" value="#{credorController.representante.pessoaFisica.pessoa.nomeReceita}" 
+					required="true" requiredMessage="O Campo Nome é Obrigatório!" /> 
+				</h:panelGroup>
+			
+			</p:panelGrid>	
+			<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-4" styleClass="ui-fluid ui-panelgrid-blank">		
+			
+				<h:panelGroup>
+					<p:outputLabel value="Tipo Documento: " styleClass="saidanegrito"/>
+					<p:selectOneMenu filter="true" value="#{credorController.representante.pessoaFisica.tipoDocumento}" 
+					required="true" requiredMessage="O Campo Tipo Documento é Obrigatório!">
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione um tipo " />
+						<f:selectItems value="#{credorController.listaEnumTipoDocumento}" var="td" itemValue="#{td}" 
+							itemLabel="#{td.descricao}" />
+					</p:selectOneMenu>
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Número do Documento:" styleClass="saidanegrito"/>
+					<p:inputText maxlength="25" value="#{credorController.representante.pessoaFisica.numeroDocumento}" 
+					required="true" requiredMessage="O Campo Número do Documento é Obrigatório!" /> 
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Orgão Emissor: " styleClass="saidanegrito"/>
+					<p:inputText maxlength="20" value="#{credorController.representante.pessoaFisica.orgaoEmissor}" 
+					required="true" requiredMessage="O Campo Número do Documento é Obrigatório!" placeholder="Ex. SSP/SP" /> 
+				</h:panelGroup>
+				
+			</p:panelGrid>	
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6" styleClass="ui-fluid ui-panelgrid-blank">	
+				
+				<h:panelGroup>
+					<p:outputLabel value="Data de Nascimento:" styleClass="saidanegrito"/>
+					<p:calendar locale="de" navigator="true" pattern="dd/MM/yyyy" 
+					value="#{credorController.representante.pessoaFisica.pessoa.dataNascimento}" required="true" 
+					requiredMessage="O Campo Data de Nascimento é Obirgatório!" />
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Estado Civil: " styleClass="saidanegrito"/>
+					<p:selectOneMenu filter="true" value="#{credorController.representante.pessoaFisica.estadoCivil}" 
+					required="true" requiredMessage="O Campo Estado Civil é Obrigatório!">
+						<f:selectItem itemValue="SOLTEIRO(A)" itemLabel="SOLTEIRO(A)" />
+						<f:selectItem itemValue="CASADO(A)" itemLabel="CASADO(A)"  />
+						<f:selectItem itemValue="VIÚVO(A)" itemLabel="VIÚVO(A)"  />
+						<f:selectItem itemValue="DESQUITADO(A)" itemLabel="DESQUITADO(A)"  />
+						<f:selectItem itemValue="DIVORCIADO(A)" itemLabel="DIVORCIADO(A)"  />
+						<f:selectItem itemValue="SEPARADO(A)" itemLabel="SEPARADO(A)"  />
+						<f:selectItem itemValue="OUTROS(A)" itemLabel="OUTROS(A)"  /> 
+						<p:ajax event="change" listener="#{credorController.verificaEstadoCivil(1)}" 
+						oncomplete="PF('dlgRepresentate').initPosition()" update="pnlConjuge" />
+					</p:selectOneMenu>
+				</h:panelGroup>
+				
+			</p:panelGrid>	
+			<p:panelGrid id="pnlConjuge" columns="2" layout="grid" columnClasses="ui-grid-col-6" 
+			styleClass="ui-fluid ui-panelgrid-blank" >		
+				
+				<h:panelGroup id="selectConjuge" rendered="#{credorController.representante.pessoaFisica.estadoCivil == 'CASADO(A)'}">
+					<p:outputLabel value="Conjuge: " styleClass="saidanegrito" />
+					<div class="grupoCadastroRapido">
+						<p:selectOneMenu filter="true" value="#{credorController.relacionamento.conjuge}"
+							converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="O Campo Conjuge é Obrigatório!">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione um Conjuge " />
+							<f:selectItems value="#{credorController.listaConjuge}"
+								var="conjuge" itemValue="#{conjuge}" itemLabel="#{conjuge.pessoa.nomeReceita} (CPF: #{conjuge.pessoa.cpfCnpj})" />
+						</p:selectOneMenu>
+						<p:commandButton id="idConjuge" icon="fa fa-plus"	oncomplete="PF('dlgConjuge').show();"
+							actionListener="#{credorController.novoConjuge}" update=":msgGlobal FormCadConjuge" immediate="true"
+							styleClass="btn-primary botaoCadastroRapido" />
+						<p:tooltip for="idConjuge" value="Novo Conjuge" position="top" />
+					</div>
+				</h:panelGroup>
+				
+				<h:panelGroup id="selectProfissaoRepresentante">
+					<p:outputLabel value="Profissão: " styleClass="saidanegrito" />
+					<div class="grupoCadastroRapido">
+						<p:selectOneMenu filter="true" value="#{credorController.representante.pessoaFisica.profissao}"
+							converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="O Campo Profissão é Obrigatório!">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma Profissão " />
+							<f:selectItems value="#{credorController.listaProfissao}"
+								var="profissao" itemValue="#{profissao}" itemLabel="#{profissao.descricao}" />
+						</p:selectOneMenu>
+						<p:commandButton id="idProfissao" icon="fa fa-plus"	oncomplete="PF('dlgProfissao').show();"
+							actionListener="#{credorController.novaProfissao}" update=":msgGlobal FormCadProfissao" immediate="true"
+							styleClass="btn-primary botaoCadastroRapido" />
+						<p:tooltip for="idProfissao" value="Nova Profissão" position="top" />
+					</div>
+				</h:panelGroup>
+			
+			</p:panelGrid>	
+			<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3" 
+			styleClass="ui-fluid ui-panelgrid-blank">	
+				
+				<h:panelGroup>
+					<p:outputLabel value="Telefone:" styleClass="saidanegrito" />
+					<p:inputText maxlength="20" value="#{credorController.representante.pessoaFisica.pessoa.telefone}"
+						required="true"	requiredMessage="O Campo Telefone é Obrigatório!" />
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="E-mail:" styleClass="saidanegrito" />
+					<p:inputText maxlength="250" value="#{credorController.representante.pessoaFisica.pessoa.email}"
+						required="true"	requiredMessage="O Campo Telefone é Obrigatório!" />
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Nacionalidade: " styleClass="saidanegrito"/>
+					<p:inputText maxlength="30" value="#{credorController.representante.pessoaFisica.nacionalidade}" 
+					required="true" requiredMessage="O Campo Nacionalidade é Obrigatório!" placeholder="Ex. BRASILEIRO"/> 
+				</h:panelGroup>
+				
+			</p:panelGrid>	
+			<p:panelGrid id="pnlEnderecoRepresentante" columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+				<p:panel header="Endereço">
+					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-9" 
+					styleClass="ui-fluid ui-panelgrid-blank">
+					
+						<h:panelGroup>
+						<p:outputLabel value="CEP:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="12" value="#{credorController.representante.pessoaFisica.pessoa.cep}" 
+							required="true" requiredMessage="O Campo CEP é Obrigatório!" >
+								<p:ajax event="blur" listener="#{credorController.consultaCEP(3)}"  /> 
+							</p:inputText>	
+						</h:panelGroup>
+						
+						<h:panelGroup>
+						<p:outputLabel value="Logradouro:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="70" value="#{credorController.representante.pessoaFisica.pessoa.logradouro}" 
+							required="true" requiredMessage="O Campo Logradouro é Obrigatório!" /> 
+						</h:panelGroup>
+						
+					</p:panelGrid>	
+					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6" styleClass="ui-fluid ui-panelgrid-blank">	
+						
+						<h:panelGroup>
+						<p:outputLabel value="Número:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="10" value="#{credorController.representante.pessoaFisica.pessoa.numero}" 
+							required="true" requiredMessage="O Campo Número é Obrigatório!" placeholder="Ex. 1020"/> 
+						</h:panelGroup>
+						
+						<h:panelGroup>
+						<p:outputLabel value="Bairro:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="70" value="#{credorController.representante.pessoaFisica.pessoa.bairro}" 
+							required="true" requiredMessage="O Campo Bairro é Obrigatório!" /> 
+						</h:panelGroup>
+						
+						<h:panelGroup>
+						<p:outputLabel value="Cidade:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="70" value="#{credorController.representante.pessoaFisica.pessoa.cidade}" 
+							required="true" requiredMessage="O Campo Cidade é Obrigatório!" /> 
+						</h:panelGroup>
+						
+						<h:panelGroup>
+						<p:outputLabel value="Sigla Estado:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="3" value="#{credorController.representante.pessoaFisica.pessoa.estadoSigla}" 
+							required="true" requiredMessage="O Campo Sigla Estado é Obrigatório!" /> 
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</p:panel>
+			</p:panelGrid>
+			
+				<p></p>
+				<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+					<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{credorController.salvarRepresentante}"	
+					update=":msgGlobal FormCadRepresentate" styleClass="btn-success"/>
+				</p:panelGrid>
+			</h:form>
+	</p:dialog>
+	
+	
+	<p:dialog header="Cadastro de Conjuge" widgetVar="dlgConjuge" draggable="true" resizable="false" modal="true" 
+	closable="true" appendTo="@(body)" styleClass="dialogoSemAltura" responsive="true" focus="FormCadConjuge:nomeConjuge">
+		<h:form id="FormCadConjuge">
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8" styleClass="ui-fluid ui-panelgrid-blank">
+					
+				<h:panelGroup>		
+					<p:outputLabel value="CPF:"  styleClass="saidanegrito"/>
+					<p:inputText maxlength="14" value="#{credorController.conjuge.pessoa.cpfCnpj}" 
+					required="true" requiredMessage="O Campo CPF é Obrigatório!" onkeypress="mascara(this, cpfCnpj);" >
+						<p:ajax event="blur" listener="#{credorController.pesquisaConjuge}" 
+						update=":msgGlobal FormCadConjuge" oncomplete="PF('dlgConjuge').initPosition()" process="@this"/>
+					</p:inputText>
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Nome:" styleClass="saidanegrito"/>
+					<p:inputText id="nomeConjuge" maxlength="150" value="#{credorController.conjuge.pessoa.nomeReceita}" 
+					required="true" requiredMessage="O Campo Nome é Obrigatório!" /> 
+				</h:panelGroup>
+			
+			</p:panelGrid>	
+			<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-4" styleClass="ui-fluid ui-panelgrid-blank">
+				
+				<h:panelGroup>
+				<p:outputLabel value="Tipo Documento: " styleClass="saidanegrito"/>
+				<p:selectOneMenu filter="true" value="#{credorController.conjuge.tipoDocumento}" 
+				required="true" requiredMessage="O Campo Tipo Documento é Obrigatório!">
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione um tipo " />
+						<f:selectItems value="#{credorController.listaEnumTipoDocumento}" var="td" itemValue="#{td}" 
+						itemLabel="#{td.descricao}" />
+				</p:selectOneMenu>
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Número do Documento:" styleClass="saidanegrito"/>
+					<p:inputText maxlength="25" value="#{credorController.conjuge.numeroDocumento}" 
+					required="true" requiredMessage="O Campo Número do Documento é Obrigatório!" /> 
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Orgão Emissor: " styleClass="saidanegrito"/>
+					<p:inputText maxlength="20" value="#{credorController.conjuge.orgaoEmissor}" 
+					required="true" requiredMessage="O Campo Número do Documento é Obrigatório!" placeholder="Ex. SSP/SP"/> 
+				</h:panelGroup>
+				
+			</p:panelGrid>	
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8" styleClass="ui-fluid ui-panelgrid-blank">	
+				
+				<h:panelGroup>
+					<p:outputLabel value="Telefone:" styleClass="saidanegrito" />
+					<p:inputText maxlength="20" value="#{credorController.conjuge.pessoa.telefone}"
+						required="true"	requiredMessage="O Campo Telefone é Obrigatório!" />
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="E-mail: " styleClass="saidanegrito"/>
+					<p:inputText maxlength="250" value="#{credorController.conjuge.pessoa.email}" 
+					required="true" requiredMessage="O Campo Nacionalidade é Obrigatório!" /> 
+				</h:panelGroup>
+				
+			</p:panelGrid>	
+			<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-4" styleClass="ui-fluid ui-panelgrid-blank">	
+				
+				<h:panelGroup>
+					<p:outputLabel value="Estado Civil: " styleClass="saidanegrito"/>
+					<p:selectOneMenu filter="true" value="#{credorController.conjuge.estadoCivil}" 
+					required="true" requiredMessage="O Campo Estado Civil é Obrigatório!">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione um Estado Civil " />
+							<f:selectItems value="#{credorController.listaEnumEstadoCivil}" var="ec" itemValue="#{ec}" 
+							itemLabel="#{ec.descricao}" />
+					</p:selectOneMenu>
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Nacionalidade: " styleClass="saidanegrito"/>
+					<p:inputText maxlength="30" value="#{credorController.conjuge.nacionalidade}" 
+					required="true" requiredMessage="O Campo Nacionalidade é Obrigatório!" placeholder="Ex. BRASILEIRO"/> 
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Data de Nascimento:" styleClass="saidanegrito"/>
+					<p:calendar locale="de" navigator="true" pattern="dd/MM/yyyy" 
+					value="#{credorController.conjuge.pessoa.dataNascimento}" required="true" 
+					requiredMessage="O Campo Data de Nascimento é Obirgatório!" >
+					</p:calendar>
+				</h:panelGroup>
+				
+			</p:panelGrid>	
+			<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">	
+			
+				<h:panelGroup id="selectProfissaoConjuge">
+					<p:outputLabel value="Profissão: " styleClass="saidanegrito" />
+					<div class="grupoCadastroRapido">
+						<p:selectOneMenu filter="true" value="#{credorController.conjuge.profissao}"
+							converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="O Campo Profissão é Obrigatório!">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma Profissão " />
+							<f:selectItems value="#{credorController.listaProfissao}"
+								var="profissao" itemValue="#{profissao}" itemLabel="#{profissao.descricao}" />
+						</p:selectOneMenu>
+						<p:commandButton id="idProfissaoConjuge" icon="fa fa-plus"	oncomplete="PF('dlgProfissao').show();"
+							actionListener="#{credorController.novaProfissao}" update=":msgGlobal FormCadProfissao" immediate="true"
+							styleClass="btn-primary botaoCadastroRapido" />
+						<p:tooltip for="idProfissaoConjuge" value="Nova Profissão" position="top" />
+					</div>
+				</h:panelGroup>
+			
+			</p:panelGrid>	
+			<p:panelGrid id="pnlEnderecoConjuge" columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+				<p:panel header="Endereço">
+					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-9" 
+					styleClass="ui-fluid ui-panelgrid-blank">
+					
+						<h:panelGroup>
+						<p:outputLabel value="CEP:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="12" value="#{credorController.conjuge.pessoa.cep}" 
+							required="true" requiredMessage="O Campo CEP é Obrigatório!" >
+								<p:ajax event="blur" listener="#{credorController.consultaCEP(4)}"  /> 
+							</p:inputText>	
+						</h:panelGroup>
+						
+						<h:panelGroup>
+						<p:outputLabel value="Logradouro:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="70" value="#{credorController.conjuge.pessoa.logradouro}" 
+							required="true" requiredMessage="O Campo Logradouro é Obrigatório!" /> 
+						</h:panelGroup>
+						
+					</p:panelGrid>	
+					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6" styleClass="ui-fluid ui-panelgrid-blank">	
+						
+						<h:panelGroup>
+						<p:outputLabel value="Número:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="10" value="#{credorController.conjuge.pessoa.numero}" 
+							required="true" requiredMessage="O Campo Número é Obrigatório!" placeholder="Ex. 1020"/> 
+						</h:panelGroup>
+						
+						<h:panelGroup>
+						<p:outputLabel value="Bairro:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="70" value="#{credorController.conjuge.pessoa.bairro}" 
+							required="true" requiredMessage="O Campo Bairro é Obrigatório!" /> 
+						</h:panelGroup>
+						
+						<h:panelGroup>
+						<p:outputLabel value="Cidade:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="70" value="#{credorController.conjuge.pessoa.cidade}" 
+							required="true" requiredMessage="O Campo Cidade é Obrigatório!" /> 
+						</h:panelGroup>
+						
+						<h:panelGroup>
+						<p:outputLabel value="Sigla Estado:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="3" value="#{credorController.conjuge.pessoa.estadoSigla}" 
+							required="true" requiredMessage="O Campo Sigla Estado é Obrigatório!" /> 
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</p:panel>
+			</p:panelGrid>
+			
+				<p></p>
+				<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+					<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{credorController.salvarConjuge}"	
+					update=":msgGlobal FormCadConjuge" styleClass="btn-success"/>
+				</p:panelGrid>
+			</h:form>
+	</p:dialog>
+</ui:composition>

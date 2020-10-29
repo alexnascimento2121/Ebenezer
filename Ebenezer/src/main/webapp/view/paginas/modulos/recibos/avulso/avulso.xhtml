@@ -1,0 +1,155 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">
+		<h:form id="frmMVD" enctype="multipart/form-data">
+			<p:panel header="RECIBOS > AVULSOS">
+				<p:toolbar style="background: #FFFFFF !important; color: #000000 !important; font-size: 12px !important;">
+					<f:facet name="left">
+						<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgRecibo').show();" 
+						actionListener="#{reciboAvulsoController.novo}" update=":msgGlobal FormCadRecibo" styleClass="btn-primary" />
+					</f:facet>
+
+				</p:toolbar>
+				<p></p>
+
+				<p:dataTable id="tabela" emptyMessage="Nenhum recibo encontrado" paginator="true" rows="15" reflow="true" 
+				paginatorPosition="bottom" value="#{reciboAvulsoController.listaReciboAvulso}" 
+				filteredValue="#{reciboAvulsoController.listaReciboAvulsoFiltrados}" var="recibo" style="text-align: center;">
+
+					<p:column headerText="Número" width="5%">
+						<h:outputText value="#{recibo.id}" />
+					</p:column>
+					
+					<p:column headerText="Pagou" width="25%">
+						<h:outputText value="#{recibo.credorPagou.pessoa.nomeReceita}" />
+					</p:column>
+					
+					<p:column headerText="Recebeu" width="25%">
+						<h:outputText value="#{recibo.credorRecebeu.pessoa.nomeReceita}" />
+					</p:column>
+
+					<p:column headerText="Referente a" width="30%" filterBy="#{recibo.descricao}" styleClass="ui-fluid">
+						<h:outputText value="#{recibo.descricao}" />
+					</p:column>
+
+					<p:column headerText="Data" width="10%">
+						<h:outputText value="#{recibo.data}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Porto_Velho" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Opções" width="10%">
+						<p:commandButton icon="fa fa-print"	actionListener="#{reciboAvulsoController.permitirImpressao}" 
+						update=":FormCadRecibo" oncomplete="PF('dlgRecibo').show();" styleClass="btn-primary" title="Imprimir">
+							<f:attribute name="reciboAvulsoSelecionado" value="#{recibo}" />
+						</p:commandButton>
+						
+						<p:commandButton icon="ui-icon-pencil"	actionListener="#{reciboAvulsoController.editar}" 
+						update=":FormCadRecibo" oncomplete="PF('dlgRecibo').show();" styleClass="btn-warning" title="Editar">
+							<f:attribute name="reciboAvulsoSelecionado" value="#{recibo}" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+		<p:dialog header="Cadastro de Recibos Avulsos" widgetVar="dlgRecibo" draggable="true" resizable="false" modal="true" 
+		closable="true" appendTo="@(body)" styleClass="dialogoParecer" responsive="true">
+			<h:form id="FormCadRecibo">
+				<p:panelGrid id="selectCredor" columns="2" layout="grid" columnClasses="ui-grid-col-6" styleClass="ui-fluid ui-panelgrid-blank">
+				
+					<h:panelGroup >
+						<p:outputLabel value="Credor Pagante: " styleClass="saidanegrito"/>
+						<div class="grupoCadastroRapido">
+							<p:selectOneMenu filter="true" value="#{reciboAvulsoController.reciboAvulso.credorPagou}" 
+							converter="omnifaces.SelectItemsConverter" required="true" 
+							requiredMessage="O Campo Credor Pagante é Obrigatório!">
+									<f:selectItem noSelectionOption="true" itemLabel="Selecione uma Função " />
+									<f:selectItems value="#{reciboAvulsoController.listaCredor}" var="credor" itemValue="#{credor}" 
+									itemLabel="#{credor.pessoa.nomeReceita}" />
+							</p:selectOneMenu>
+							
+							<p:commandButton id="idCredor1" icon="fa fa-plus" oncomplete="PF('dlgFuncao').show();"
+								actionListener="#{funcionarioController.novaFuncao}" update=":msgGlobal FormCadRecibo" immediate="true"
+								styleClass="btn-primary botaoCadastroRapido" 
+								rendered="#{reciboAvulsoController.habilitaImpressao == false}" />
+							<p:tooltip for="idCredor1" value="Novo Credor" position="top" />
+						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup >
+						<p:outputLabel value="Credor Recebendo: " styleClass="saidanegrito"/>
+						<div class="grupoCadastroRapido">
+							<p:selectOneMenu filter="true" value="#{reciboAvulsoController.reciboAvulso.credorRecebeu}" 
+							converter="omnifaces.SelectItemsConverter" required="true" 
+							requiredMessage="O Campo Credor Recebendo é Obrigatório!">
+									<f:selectItem noSelectionOption="true" itemLabel="Selecione uma Função " />
+									<f:selectItems value="#{reciboAvulsoController.listaCredor}" var="credor" itemValue="#{credor}" 
+									itemLabel="#{credor.pessoa.nomeReceita}" />
+							</p:selectOneMenu>
+							
+							<p:commandButton id="idCredor2" icon="fa fa-plus" oncomplete="PF('dlgFuncao').show();"
+								actionListener="#{funcionarioController.novaFuncao}" update=":msgGlobal FormCadRecibo" immediate="true"
+								styleClass="btn-primary botaoCadastroRapido" rendered="#{reciboAvulsoController.habilitaImpressao == false}"/>
+							<p:tooltip for="idCredor2" value="Novo Credor" position="top" />
+						</div>
+					</h:panelGroup>
+					
+				</p:panelGrid>	
+				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6" styleClass="ui-fluid ui-panelgrid-blank">	
+				
+					<h:panelGroup>
+						<p:outputLabel  value="Valor: " styleClass="saidanegrito"/>
+						<p:inputText value="#{reciboAvulsoController.reciboAvulso.valor}" onkeypress="mascara(this, valor);" 
+						required="true" requiredMessage="O Campo Valor é Obrigatório!" >
+	    					<f:convertNumber groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" />
+	    					<p:ajax event="blur" listener="#{reciboAvulsoController.gerarValorPorExtenso}" update="valorExtenso" />
+						</p:inputText>	
+					</h:panelGroup>
+					
+					<h:panelGroup id="valorExtenso">
+					<p:outputLabel value="Valor Por Extenso: " />
+					<p:inputText maxlength="50"	value="#{reciboAvulsoController.reciboAvulso.valorPorExtenso}" required="true" 
+					requiredMessage="O Campo Valor Por Extensoo é Obrigatório!" />
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Referente a: " />
+					<p:inputText maxlength="50"	value="#{reciboAvulsoController.reciboAvulso.descricao}" required="true" 
+					requiredMessage="O Campo Descrição da Função é Obrigatório!" />
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Data de Emissão: " />
+					<p:calendar locale="de" navigator="true" pattern="dd/MM/yyyy" 
+					value="#{reciboAvulsoController.reciboAvulso.data}" required="true" 
+					requiredMessage="O Campo Data de Emissão é Obrigatório!" />
+					</h:panelGroup>
+				</p:panelGrid>
+
+				<p />
+				<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+					<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{reciboAvulsoController.salvar}"	
+					update=":msgGlobal :frmMVD :FormCadRecibo" styleClass="btn-success" 
+					rendered="#{reciboAvulsoController.habilitaImpressao == false}"/>
+					
+					<p:commandButton value="Imprimir" icon="fa fa-print" actionListener="#{reciboAvulsoController.imprimir}" 
+					onclick="this.form.target='_blank'" ajax="false" styleClass="btn-primary" title="Imprimir" 
+						rendered="#{reciboAvulsoController.habilitaImpressao == true}" />
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>

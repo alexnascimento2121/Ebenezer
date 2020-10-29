@@ -1,0 +1,222 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">
+		<h:form id="frmMVD" enctype="multipart/form-data">
+			<p:panel header="Admin - T.I. > Funcionário">
+				<p:toolbar style="background: #FFFFFF !important; color: #000000 !important; font-size: 12px !important;">
+					<f:facet name="left">
+						<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgFuncionario').show();" 
+						actionListener="#{funcionarioController.novo}" update=":msgGlobal FormCadFuncionario" 
+						styleClass="btn-primary" />
+					</f:facet>
+
+				</p:toolbar>
+				<p></p>
+
+				<p:dataTable id="tabela" emptyMessage="Nenhum funcionário encontrado" reflow="true" 
+				value="#{funcionarioController.listaFuncionario}" 
+				filteredValue="#{funcionarioController.listaFuncionarioFiltrados}" var="funcionario" style="text-align: center;">
+
+					<p:column headerText="Código" width="10%">
+						<h:outputText value="#{funcionario.id}" />
+					</p:column>
+
+					<p:column headerText="Nome" width="30%" filterBy="#{funcionario.pessoaFisica.pessoa.nomeReceita}" styleClass="ui-fluid">
+						<h:outputText value="#{funcionario.pessoaFisica.pessoa.nomeReceita}" />
+					</p:column>
+					
+					<p:column headerText="CPF" width="15%" filterBy="#{funcionario.pessoaFisica.pessoa.cpfCnpj}" styleClass="ui-fluid">
+						<h:outputText value="#{funcionario.pessoaFisica.pessoa.cpfCnpj}" />
+					</p:column>
+					
+					<p:column headerText="Função" width="20%" filterBy="#{funcionario.funcao.descricao}" styleClass="ui-fluid">
+						<h:outputText value="#{funcionario.funcao.descricao}" />
+					</p:column>
+					
+					<p:column headerText="Cadastro" width="15%">
+						<h:outputText value="#{funcionario.dataCadastro}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Opção" width="5%">
+						<p:commandButton icon="fa fa-pencil" actionListener="#{funcionarioController.editar}" 
+						update=":FormCadFuncionario" oncomplete="PF('dlgFuncionario').show();" styleClass="btn-warning">
+							<f:attribute name="funcionarioSelecionado" value="#{funcionario}" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+
+	<p:dialog header="Cadastro de Funcionários(as)" widgetVar="dlgFuncionario" draggable="true" resizable="false" modal="true" 
+	closable="true" appendTo="@(body)" styleClass="telaTamanhoMedio" responsive="true" focus="FormCadFuncionario:nomeReceita">
+		<h:form id="FormCadFuncionario">
+			<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2" 
+			styleClass="ui-fluid ui-panelgrid-blank">
+					
+				<h:panelGroup>		
+					<p:outputLabel value="CPF:"  styleClass="saidanegrito"/>
+					<p:inputMask mask="999.999.999-99" value="#{funcionarioController.funcionario.pessoaFisica.pessoa.cpfCnpj}" 
+					required="true" requiredMessage="O Campo CPF é Obrigatório!"  >
+						<p:ajax event="blur" listener="#{funcionarioController.pesquisar}" update="FormCadFuncionario" />
+					</p:inputMask>	
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Nome:" styleClass="saidanegrito"/>
+					<p:inputText id="nomeReceita" maxlength="150" value="#{funcionarioController.funcionario.pessoaFisica.pessoa.nomeReceita}" 
+					required="true" requiredMessage="O Campo Nome é Obrigatório!" /> 
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Data de Nascimento:" styleClass="saidanegrito"/>
+					<p:calendar locale="de" navigator="true" pattern="dd/MM/yyyy" 
+					value="#{funcionarioController.funcionario.pessoaFisica.pessoa.dataNascimento}" required="true" 
+					requiredMessage="O Campo Data de Nascimento é Obirgatório!" >
+					</p:calendar>
+				</h:panelGroup>
+				
+			</p:panelGrid>	
+			<p:panelGrid columns="5" layout="grid" 
+			columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-4" 
+			styleClass="ui-fluid ui-panelgrid-blank">	
+				
+				<h:panelGroup>
+				<p:outputLabel value="Tipo Documento: " styleClass="saidanegrito"/>
+				<p:selectOneMenu filter="true" value="#{funcionarioController.funcionario.pessoaFisica.tipoDocumento}" 
+				required="true" requiredMessage="O Campo Tipo Documento é Obrigatório!">
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione um tipo " />
+						<f:selectItems value="#{funcionarioController.listaEnumTipoDocumento}" var="td" itemValue="#{td}" 
+						itemLabel="#{td.descricao}" />
+				</p:selectOneMenu>
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Número do Documento:" styleClass="saidanegrito"/>
+					<p:inputText maxlength="25" value="#{funcionarioController.funcionario.pessoaFisica.numeroDocumento}" 
+					required="true" requiredMessage="O Campo Número do Documento é Obrigatório!" /> 
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Orgão Emissor: " styleClass="saidanegrito"/>
+					<p:inputText maxlength="20" value="#{funcionarioController.funcionario.pessoaFisica.orgaoEmissor}" 
+					required="true" requiredMessage="O Campo Número do Documento é Obrigatório!" placeholder="Ex. SSP/SP"/> 
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Nacionalidade: " styleClass="saidanegrito"/>
+					<p:inputText maxlength="20" value="#{funcionarioController.funcionario.pessoaFisica.nacionalidade}" 
+					required="true" requiredMessage="O Campo Nacionalidade é Obrigatório!" placeholder="Ex. Brasileiro"/> 
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Estado Civil: " styleClass="saidanegrito"/>
+					<p:selectOneMenu filter="true" value="#{funcionarioController.funcionario.pessoaFisica.estadoCivil}" 
+					required="true" requiredMessage="O Campo Estado Civil é Obrigatório!">
+						<f:selectItem itemValue="SOLTEIRO(A)" itemLabel="SOLTEIRO(A)" />
+						<f:selectItem itemValue="CASADO(A)" itemLabel="CASADO(A)"  />
+						<f:selectItem itemValue="VIÚVO(A)" itemLabel="VIÚVO(A)"  />
+						<f:selectItem itemValue="DESQUITADO(A)" itemLabel="DESQUITADO(A)"  />
+						<f:selectItem itemValue="DIVORCIADO(A)" itemLabel="DIVORCIADO(A)"  />
+						<f:selectItem itemValue="SEPARADO(A)" itemLabel="SEPARADO(A)"  />
+						<f:selectItem itemValue="OUTROS(A)" itemLabel="OUTROS(A)"  />
+					</p:selectOneMenu>
+				</h:panelGroup>
+			
+			</p:panelGrid>	
+			<p:panelGrid id="pnlFuncao" columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+			
+				<h:panelGroup id="selectCnae">
+					<p:outputLabel value="Função: " styleClass="saidanegrito"/>
+					<div class="grupoCadastroRapido">
+						<p:selectOneMenu filter="true" value="#{funcionarioController.funcionario.funcao}" 
+						converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="O Campo Função é Obrigatório!">
+								<f:selectItem noSelectionOption="true" itemLabel="Selecione uma Função " />
+								<f:selectItems value="#{funcionarioController.listaFuncao}" var="funcao" itemValue="#{funcao}" 
+								itemLabel="#{funcao.descricao}" />
+						</p:selectOneMenu>
+						
+						<p:commandButton id="idFuncao" icon="fa fa-plus" oncomplete="PF('dlgFuncao').show();"
+							actionListener="#{funcionarioController.novaFuncao}" update=":msgGlobal FormCadFuncao" immediate="true"
+							styleClass="btn-primary botaoCadastroRapido" />
+						<p:tooltip for="idFuncao" value="Nova Função" position="top" />
+					</div>
+				</h:panelGroup>
+				
+			</p:panelGrid>
+			<p:panelGrid id="pnlEndereco" columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+				
+				<p:panel header="Endereço">
+					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3" 
+					styleClass="ui-fluid ui-panelgrid-blank">
+					
+						<h:panelGroup>
+						<p:outputLabel value="CEP:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="12" value="#{funcionarioController.funcionario.pessoaFisica.pessoa.cep}" 
+							required="true" requiredMessage="O Campo CEP é Obrigatório!" >
+								<p:ajax event="blur" listener="#{funcionarioController.consultaCEP}" update="FormCadFuncionario:pnlEndereco" 
+								process="@this" /> 
+							</p:inputText>	
+						</h:panelGroup>
+						
+						<h:panelGroup>
+						<p:outputLabel value="Logradouro:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="70" value="#{funcionarioController.funcionario.pessoaFisica.pessoa.logradouro}" 
+							required="true" requiredMessage="O Campo Logradouro é Obrigatório!" /> 
+						</h:panelGroup>
+						
+						<h:panelGroup>
+						<p:outputLabel value="Número:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="10" value="#{funcionarioController.funcionario.pessoaFisica.pessoa.numero}" 
+							required="true" requiredMessage="O Campo Número é Obrigatório!" placeholder="Ex. 1020"/> 
+						</h:panelGroup>
+						
+					</p:panelGrid>
+					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-4" styleClass="ui-fluid ui-panelgrid-blank">	
+						
+						<h:panelGroup>
+						<p:outputLabel value="Bairro:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="70" value="#{funcionarioController.funcionario.pessoaFisica.pessoa.bairro}" 
+							required="true" requiredMessage="O Campo Número é Obrigatório!" /> 
+						</h:panelGroup>
+						
+						<h:panelGroup>
+						<p:outputLabel value="Cidade:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="70" value="#{funcionarioController.funcionario.pessoaFisica.pessoa.cidade}" 
+							required="true" requiredMessage="O Campo Número é Obrigatório!" /> 
+						</h:panelGroup>
+						
+						<h:panelGroup>
+						<p:outputLabel value="Sigla Estado:" styleClass="saidanegrito"/>
+							<p:inputText maxlength="3" value="#{funcionarioController.funcionario.pessoaFisica.pessoa.estadoSigla}" 
+							required="true" requiredMessage="O Campo Número é Obrigatório!" /> 
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</p:panel>
+			</p:panelGrid>
+			
+				<br></br>
+				<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+					<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{funcionarioController.salvar}"	
+					update=":msgGlobal :frmMVD :FormCadFuncionario" styleClass="btn-success"/>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+		<ui:include src="./cadastroRapido.xhtml" />
+
+	</ui:define>
+</ui:composition>

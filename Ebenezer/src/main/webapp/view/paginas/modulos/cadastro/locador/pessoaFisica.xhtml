@@ -1,0 +1,174 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank"
+		rendered="#{locadorController.locador.pessoa.cpfCnpj.length() == 14}">
+		<p:panel header="Pessoa Fisica">
+			<p:panelGrid columns="5" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2" 
+			styleClass="ui-fluid ui-panelgrid-blank">
+
+				<h:panelGroup>
+					<p:outputLabel value="Data de Nascimento:" styleClass="saidanegrito" />
+					<p:calendar locale="de" navigator="true" pattern="dd/MM/yyyy"
+						value="#{locadorController.locador.pessoa.dataNascimento}"
+						required="true"	requiredMessage="O Campo Data de Nascimento é Obirgatório!" />
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Estado Civil: " styleClass="saidanegrito"/>
+					<p:selectOneMenu value="#{locadorController.locadorPF.pessoaFisica.estadoCivil}" required="true" 
+					requiredMessage="O Campo Estado Civil é Obrigatório!"  >
+						<f:selectItem itemValue="SOLTEIRO(A)" itemLabel="SOLTEIRO(A)" />
+						<f:selectItem itemValue="CASADO(A)" itemLabel="CASADO(A)"  />
+						<f:selectItem itemValue="VIÚVO(A)" itemLabel="VIÚVO(A)"  />
+						<f:selectItem itemValue="DESQUITADO(A)" itemLabel="DESQUITADO(A)"  />
+						<f:selectItem itemValue="DIVORCIADO(A)" itemLabel="DIVORCIADO(A)"  />
+						<f:selectItem itemValue="SEPARADO(A)" itemLabel="SEPARADO(A)"  />
+						<f:selectItem itemValue="OUTROS(A)" itemLabel="OUTROS(A)"  />
+						<p:ajax event="change" listener="#{locadorController.verificaEstadoCivil(2)}" update="pnlConjugeMain" 
+						oncomplete="PF('dlgLocador').initPosition();"/>
+					</p:selectOneMenu>
+				</h:panelGroup>
+
+				<h:panelGroup>
+					<p:outputLabel value="Tipo Documento: " styleClass="saidanegrito" />
+					<p:selectOneMenu filter="true" value="#{locadorController.locadorPF.pessoaFisica.tipoDocumento}"
+						required="true" requiredMessage="O Campo Tipo Documento é Obrigatório!">
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione um tipo " />
+						<f:selectItems value="#{locadorController.listaEnumTipoDocumento}" var="td" itemValue="#{td}" 
+						itemLabel="#{td.descricao}" />
+					</p:selectOneMenu>
+				</h:panelGroup>
+
+				<h:panelGroup>
+					<p:outputLabel value="Número do Documento:"	styleClass="saidanegrito" />
+					<p:inputText maxlength="25" value="#{locadorController.locadorPF.pessoaFisica.numeroDocumento}"	required="true"	
+					requiredMessage="O Campo Número do Documento é Obrigatório!" />
+				</h:panelGroup>
+
+				<h:panelGroup>
+					<p:outputLabel value="Orgão Emissor: " styleClass="saidanegrito" />
+					<p:inputText maxlength="20"	value="#{locadorController.locadorPF.pessoaFisica.orgaoEmissor}" required="true" 
+					requiredMessage="O Campo Número do Documento é Obrigatório!" placeholder="Ex. SSP/SP" />
+				</h:panelGroup>
+				
+			</p:panelGrid>
+			<p:panelGrid id="pnlConjugeMain" columns="1" layout="grid" columnClasses="ui-grid-col-12" 
+			styleClass="ui-fluid ui-panelgrid-blank" >		
+				
+				<h:panelGroup id="selectConjuge" rendered="#{locadorController.locadorPF.pessoaFisica.estadoCivil == 'CASADO(A)'}">
+					<p:outputLabel value="Conjuge: " styleClass="saidanegrito" />
+					<div class="grupoCadastroRapido">
+						<p:selectOneMenu filter="true" value="#{locadorController.relacionamento.conjuge}"
+							converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="O Campo Profissão é Obrigatório!">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione um Conjuge " />
+							<f:selectItems value="#{locadorController.listaConjuge}"
+								var="conjuge" itemValue="#{conjuge}" itemLabel="#{conjuge.pessoa.nomeReceita} (CPF: #{conjuge.pessoa.cpfCnpj})" />
+						</p:selectOneMenu>
+						<p:commandButton id="idConjuge" icon="fa fa-plus"	oncomplete="PF('dlgConjuge').show();"
+							actionListener="#{locadorController.novoConjuge}" update=":msgGlobal FormCadConjuge" immediate="true"
+							styleClass="btn-primary botaoCadastroRapido" />
+						<p:tooltip for="idConjuge" value="Novo Conjuge" position="top" />
+					</div>
+				</h:panelGroup>
+			
+			</p:panelGrid>
+			<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" 
+			styleClass="ui-fluid ui-panelgrid-blank">	
+				
+				<h:panelGroup>
+					<p:outputLabel value="Telefone:" styleClass="saidanegrito" />
+					<p:inputText maxlength="20" value="#{locadorController.locador.pessoa.telefone}"
+						required="true"	requiredMessage="O Campo Telefone é Obrigatório!" >
+					</p:inputText>
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="E-mail: " styleClass="saidanegrito" />
+					<p:inputText maxlength="250" value="#{locadorController.locador.pessoa.email}"
+						required="true"	requiredMessage="O Campo E-mail é Obrigatório!" >
+					</p:inputText>
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Nacionalidade: " styleClass="saidanegrito"/>
+					<p:inputText maxlength="30" value="#{locadorController.locadorPF.pessoaFisica.nacionalidade}" 
+					required="true" requiredMessage="O Campo Nacionalidade é Obrigatório!" placeholder="Ex. BRASILEIRO">
+					</p:inputText> 
+				</h:panelGroup>
+
+				<h:panelGroup id="selectProfissao">
+					<p:outputLabel value="Profissão: " styleClass="saidanegrito" />
+					<div class="grupoCadastroRapido">
+						<p:selectOneMenu filter="true" value="#{locadorController.locadorPF.pessoaFisica.profissao}"
+							converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="O Campo Profissão é Obrigatório!">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma Profissão " />
+							<f:selectItems value="#{locadorController.listaProfissao}"
+								var="profissao" itemValue="#{profissao}" itemLabel="#{profissao.descricao}" />
+						</p:selectOneMenu>
+						<p:commandButton id="idProfissao" icon="fa fa-plus"	oncomplete="PF('dlgProfissao').show();"
+							actionListener="#{locadorController.novaProfissao}" update=":msgGlobal FormCadProfissao" immediate="true"
+							styleClass="btn-primary botaoCadastroRapido" />
+						<p:tooltip for="idProfissao" value="Nova Profissão" position="top" />
+					</div>
+				</h:panelGroup>
+				
+			</p:panelGrid>
+			<p></p>
+			<p:panelGrid id="pnlEnderecoPf"  columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+				<p:panel header="Endereço">
+					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2"
+						styleClass="ui-fluid ui-panelgrid-blank">
+
+						<h:panelGroup>
+							<p:outputLabel value="CEP:" styleClass="saidanegrito" />
+							<p:inputText maxlength="12"	value="#{locadorController.locador.pessoa.cep}"
+								required="true" requiredMessage="O Campo CEP é Obrigatório!">
+								<p:ajax event="blur" listener="#{locadorController.consultaCEP(1)}"  />
+							</p:inputText>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:outputLabel value="Logradouro:" styleClass="saidanegrito" />
+							<p:inputText maxlength="70" value="#{locadorController.locador.pessoa.logradouro}"
+								required="true"	requiredMessage="O Campo Logradouro é Obrigatório!" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:outputLabel value="Número:" styleClass="saidanegrito" />
+							<p:inputText maxlength="10"	value="#{locadorController.locador.pessoa.numero}"
+								required="true" requiredMessage="O Campo Número é Obrigatório!"	placeholder="Ex. 1020" />
+						</h:panelGroup>
+
+					</p:panelGrid>
+					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-5,ui-grid-col-5,ui-grid-col-2"
+						styleClass="ui-fluid ui-panelgrid-blank">
+
+						<h:panelGroup>
+							<p:outputLabel value="Bairro:" styleClass="saidanegrito" />
+							<p:inputText maxlength="70"	value="#{locadorController.locador.pessoa.bairro}"
+								required="true" requiredMessage="O Campo Bairro é Obrigatório!" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:outputLabel value="Cidade:" styleClass="saidanegrito" />
+							<p:inputText maxlength="70" value="#{locadorController.locador.pessoa.cidade}"
+								required="true" requiredMessage="O Campo Cidade é Obrigatório!" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:outputLabel value="Sigla Estado:" styleClass="saidanegrito" />
+							<p:inputText maxlength="3" value="#{locadorController.locador.pessoa.estadoSigla}"
+								required="true" requiredMessage="O Campo Sigla Estado é Obrigatório!" />
+						</h:panelGroup>
+
+					</p:panelGrid>
+				</p:panel>
+			</p:panelGrid>
+		</p:panel>
+
+	</p:panelGrid>
+</ui:composition>

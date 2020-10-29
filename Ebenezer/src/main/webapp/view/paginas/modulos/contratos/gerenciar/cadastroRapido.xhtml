@@ -1,0 +1,185 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog header="Liquidar Parcela" widgetVar="dlgParcela" draggable="true" resizable="false" modal="true" closable="true"
+		appendTo="@(body)" responsive="true">
+		<h:form id="FormParcela">
+			<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-6" 
+			styleClass="ui-fluid ui-panelgrid-blank">
+
+				<h:panelGroup>
+					<p:outputLabel value="Número: " />
+					<p:inputText value="#{contratoController.parcela.numero}" readonly="true" />
+				</h:panelGroup>
+
+				<h:panelGroup>
+					<p:outputLabel value="Valor da Parcela: " styleClass="saidanegrito" />
+					<p:inputText value="#{contratoController.parcela.valorParcela}" onkeypress="mascara(this, valor);" readonly="true">
+						<f:convertNumber groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" />
+					</p:inputText>
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Valor Pago: " styleClass="saidanegrito" />
+					<p:inputText value="#{contratoController.parcela.valorPago}" onkeypress="mascara(this, valor);" required="true" 
+					requiredMessage="O Campo Valor da Pago é Obrigatório!" styleClass="fonteAzul">
+						<f:convertNumber groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" />
+					</p:inputText>
+				</h:panelGroup>
+				
+			</p:panelGrid>
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6" styleClass="ui-fluid ui-panelgrid-blank">	
+
+				<h:panelGroup>
+					<p:outputLabel value="Data de Vencimento: " styleClass="saidanegrito" />
+					<p:calendar locale="de" navigator="true" pattern="dd/MM/yyyy" value="#{contratoController.parcela.dataVencimento}" 
+					readonly="true" />
+				</h:panelGroup>	
+				
+				<h:panelGroup>	
+					<p:outputLabel value="Data de Pagamento: " styleClass="saidanegrito" />
+					<p:calendar locale="de" navigator="true" pattern="dd/MM/yyyy" value="#{contratoController.parcela.dataPagamento}" 
+					required="true" requiredMessage="O Campo Data de Pagamento é Obrigatório!" />
+				</h:panelGroup>
+			</p:panelGrid>
+
+			<p></p>
+			<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+				<p:commandButton value="Liquidar" icon="fa fa-check" actionListener="#{contratoController.salvarParcela}"
+					update=":msgGlobal FormParcela FormCadContrato" oncomplete="PF('dlgContrato').initPosition();" 
+					styleClass="btn-success" process="@form" />
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+	
+	<p:dialog header="Cadastro de Imóveis" widgetVar="dlgImovel" draggable="true" resizable="false" modal="true" closable="true" 
+		appendTo="@(body)" styleClass="dialogoParecer" responsive="true">
+			<h:form id="FormCadImovel">
+				<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-6,ui-grid-col-2" 
+				styleClass="ui-fluid ui-panelgrid-blank">
+				
+					<h:panelGroup>
+						<p:outputLabel value="Código Ceron: " />
+						<p:inputText maxlength="20"	value="#{contratoController.imovel.codigoCeron}" required="true" 
+						requiredMessage="O Campo Código Ceron é Obrigatório!" />
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<p:outputLabel value="Código Caerd: " />
+						<p:inputText maxlength="20"	value="#{contratoController.imovel.codigoCaerd}" required="true" 
+						requiredMessage="O Campo Código Caerd é Obrigatório!" />
+					</h:panelGroup>
+					
+					<h:panelGroup id="selectLocador">
+						<p:outputLabel value="Dono: " styleClass="saidanegrito"/>
+						<p:inputText maxlength="20"	value="#{contratoController.imovel.dono.pessoa.nomeReceita}" required="true" 
+						requiredMessage="O Campo Dono é Obrigatório!" />
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<p:outputLabel value="Situação: " styleClass="saidanegrito" />
+						<p:selectOneMenu value="#{contratoController.imovel.situacao}" >
+							<f:selectItem itemValue="ATIVO" itemLabel="ATIVO" />
+							<f:selectItem itemValue="INATIVO" itemLabel="INATIVO"  />
+						</p:selectOneMenu>
+					</h:panelGroup>
+					
+				</p:panelGrid>
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">	
+					
+					<h:panelGroup>
+						<p:outputLabel value="Descrição do Objeto: " />
+						<p:inputText maxlength="250" value="#{contratoController.imovel.descricao}" required="true" 
+						requiredMessage="O Campo Descrição do Imóvel é Obrigatório!" />
+					</h:panelGroup>
+					
+				</p:panelGrid>
+				<p:panelGrid id="pnlEndereco"  columns="1" layout="grid" columnClasses="ui-grid-col-12" 
+				styleClass="ui-fluid ui-panelgrid-blank">
+					<p:panel header="Endereço">
+						<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2"
+							styleClass="ui-fluid ui-panelgrid-blank">
+	
+							<h:panelGroup>
+								<p:outputLabel value="CEP:" styleClass="saidanegrito" />
+								<p:inputText maxlength="12"	value="#{contratoController.imovel.cep}"
+									required="true" requiredMessage="O Campo CEP é Obrigatório!">
+									<p:ajax event="blur" listener="#{contratoController.consultaCEPImovel}" update="pnlEndereco"  />
+								</p:inputText>
+							</h:panelGroup>
+	
+							<h:panelGroup>
+								<p:outputLabel value="Logradouro:" styleClass="saidanegrito" />
+								<p:inputText maxlength="70" value="#{contratoController.imovel.logradouro}"
+									required="true"	requiredMessage="O Campo Logradouro é Obrigatório!" />
+							</h:panelGroup>
+	
+							<h:panelGroup>
+								<p:outputLabel value="Número:" styleClass="saidanegrito" />
+								<p:inputText maxlength="10"	value="#{contratoController.imovel.numero}"
+									required="true" requiredMessage="O Campo Número é Obrigatório!"	placeholder="Ex. 1020" />
+							</h:panelGroup>
+	
+						</p:panelGrid>
+						<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-5,ui-grid-col-5,ui-grid-col-2"
+							styleClass="ui-fluid ui-panelgrid-blank">
+	
+							<h:panelGroup>
+								<p:outputLabel value="Bairro:" styleClass="saidanegrito" />
+								<p:inputText maxlength="70"	value="#{contratoController.imovel.bairro}"
+									required="true" requiredMessage="O Campo Bairro é Obrigatório!" />
+							</h:panelGroup>
+	
+							<h:panelGroup>
+								<p:outputLabel value="Cidade:" styleClass="saidanegrito" />
+								<p:inputText maxlength="70" value="#{contratoController.imovel.cidade}"
+									required="true" requiredMessage="O Campo Cidade é Obrigatório!" />
+							</h:panelGroup>
+	
+							<h:panelGroup>
+								<p:outputLabel value="Sigla Estado:" styleClass="saidanegrito" />
+								<p:inputText maxlength="3" value="#{contratoController.imovel.estadoSigla}"
+									required="true" requiredMessage="O Campo Sigla Estado é Obrigatório!" />
+							</h:panelGroup>
+	
+						</p:panelGrid>
+					</p:panel>
+				</p:panelGrid>
+
+				<p></p>
+				<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+					<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{contratoController.salvarImovel}"	
+					update=":msgGlobal :frmMVD :FormCadImovel" styleClass="btn-success"/>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+	<p:dialog header="Cadastro de Locatário Conjuto" widgetVar="dlgLocatarioConjunte" draggable="true" 
+	resizable="false" modal="true" closable="true" appendTo="@(body)" responsive="true">
+	
+		<h:form id="FormCadLocatarioConjunte">
+			<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+
+				<h:panelGroup>
+					<p:outputLabel value="Pessoa: " />
+					<p:selectOneMenu filter="true" value="#{contratoController.locatarioConjunto.pessoa}" 
+					converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="O Campo Pessoa é Obrigatório!" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma Pessoa" />
+						<f:selectItems value="#{contratoController.listaPessoa}" var="pessoa" itemValue="#{pessoa}" 
+						itemLabel="#{pessoa.nomeReceita}" />
+					</p:selectOneMenu>
+				</h:panelGroup>
+			</p:panelGrid>
+
+			<p></p>
+			<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+				<p:commandButton value="Adicionar" icon="fa fa-check" actionListener="#{contratoController.salvarLocatarioConjunto}" 
+				update=":msgGlobal FormCadLocatarioConjunte FormCadContrato:tabView" styleClass="btn-success" />
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+
+</ui:composition>

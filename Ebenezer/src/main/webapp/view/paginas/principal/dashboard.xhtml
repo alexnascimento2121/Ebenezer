@@ -1,0 +1,213 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">
+	<h4>Bem vindo(a) <b>#{autenticacaoController.usuarioLogado.funcionario.pessoaFisica.pessoa.nomeReceita}</b> ao System - ADI!</h4>
+	
+	<div class="row">
+				<div class="col-lg-4 col-xs-6">
+					<!-- small box -->
+					<div class="small-box bg-yellow">
+						<div class="inner valoresCabecalhoDashBoard">
+							Parcelas à Receber esta Semana 
+							<p:outputLabel value="#{dashBoardController.dashBoardReceberPorSemana.quantidade}" styleClass="valoresCorpoDashBoard"/>
+
+							<p />Valor Total
+							<h:outputText value="#{dashBoardController.dashBoardReceberPorSemana.valor}" styleClass="valoresCorpoDashBoard">
+								<f:convertNumber currencySymbol="R$ " type="currency" />
+							</h:outputText>	
+						</div>
+						<div class="icon">
+							<i class="fa fa-exclamation"></i>
+						</div>
+						<a href="/SystemAdi/Contrato/Gerenciar" class="small-box-footer">Visualizar <i
+							class="fa fa-arrow-circle-right"></i></a>
+					</div>
+				</div>
+				
+				<!-- ./col -->
+				<div class="col-lg-4 col-xs-6">
+					<!-- small box -->
+					<div class="small-box bg-yellow">
+						<div class="inner valoresCabecalhoDashBoard">
+							Parcelas à Receber este Mês 
+							<p:outputLabel value="#{dashBoardController.dashBoardReceberPorMes.quantidade}" styleClass="valoresCorpoDashBoard"/>
+
+							<p />Valor Total
+							<h:outputText value="#{dashBoardController.dashBoardReceberPorMes.valor}" styleClass="valoresCorpoDashBoard">
+								<f:convertNumber currencySymbol="R$ " type="currency" />
+							</h:outputText>	
+						</div>
+						<div class="icon">
+							<i class="fa fa-exclamation"></i>
+						</div>
+						<a href="/SystemAdi/Contrato/Gerenciar" class="small-box-footer">Visualizar <i
+							class="fa fa-arrow-circle-right"></i></a>
+					</div>
+				</div>
+				
+				<!-- ./col -->
+				<div class="col-lg-4 col-xs-6">
+					<!-- small box -->
+					<div class="small-box bg-red">
+						<div class="inner valoresCabecalhoDashBoard">
+							Parcelas à Receber este Ano 
+							<p:outputLabel value="#{dashBoardController.dashBoardReceberPorAno.quantidade}" styleClass="valoresCorpoDashBoard"/>
+
+							<p />Valor Total
+							<h:outputText value="#{dashBoardController.dashBoardReceberPorAno.valor}" styleClass="valoresCorpoDashBoard">
+								<f:convertNumber currencySymbol="R$ " type="currency" />
+							</h:outputText>	
+						</div>
+						<div class="icon">
+							<i class="fa fa-usd"></i>
+						</div>
+						<a href="/SystemAdi/Contrato/Gerenciar" class="small-box-footer">Visualizar <i
+							class="fa fa-arrow-circle-right"></i></a>
+					</div>
+				</div>
+				
+				
+				<!-- RECEBIDO -->
+				<div class="col-lg-4 col-xs-6">
+					<!-- small box -->
+					<div class="small-box bg-aqua">
+						<div class="inner valoresCabecalhoDashBoard">
+							Parcelas Recebidas esta Semana 
+							<p:outputLabel value="#{dashBoardController.dashBoardRecebidoPorSemana.quantidade}" styleClass="valoresCorpoDashBoard"/>
+
+							<p />Valor Total
+							<h:outputText value="#{dashBoardController.dashBoardRecebidoPorSemana.valor}" styleClass="valoresCorpoDashBoard">
+								<f:convertNumber currencySymbol="R$ " type="currency" />
+							</h:outputText>	
+						</div>
+						<div class="icon">
+							<i class="fa fa-check"></i>
+						</div>
+						<a href="/SystemAdi/Contrato/Gerenciar" class="small-box-footer">Visualizar <i
+							class="fa fa-arrow-circle-right"></i></a>
+					</div>
+				</div>
+				
+				<!-- ./col -->
+				<div class="col-lg-4 col-xs-6">
+					<!-- small box -->
+					<div class="small-box bg-aqua">
+						<div class="inner valoresCabecalhoDashBoard">
+							Parcelas Recebidas este Mês 
+							<p:outputLabel value="#{dashBoardController.dashBoardRecebidoPorMes.quantidade}" styleClass="valoresCorpoDashBoard"/>
+
+							<p />Valor Total
+							<h:outputText value="#{dashBoardController.dashBoardRecebidoPorMes.valor}" styleClass="valoresCorpoDashBoard">
+								<f:convertNumber currencySymbol="R$ " type="currency" />
+							</h:outputText>	
+						</div>
+						<div class="icon">
+							<i class="fa fa-check"></i>
+						</div>
+						<a href="/SystemAdi/Contrato/Gerenciar" class="small-box-footer">Visualizar <i
+							class="fa fa-arrow-circle-right"></i></a>
+					</div>
+				</div>
+				
+				<!-- ./col -->
+				<div class="col-lg-4 col-xs-6">
+					<!-- small box -->
+					<div class="small-box bg-green">
+						<div class="inner valoresCabecalhoDashBoard">
+							Parcelas Recebidas este Ano 
+							<p:outputLabel value="#{dashBoardController.dashBoardRecebidoPorAno.quantidade}" styleClass="valoresCorpoDashBoard"/>
+
+							<p />Valor Total
+							<h:outputText value="#{dashBoardController.dashBoardRecebidoPorAno.valor}" styleClass="valoresCorpoDashBoard">
+								<f:convertNumber currencySymbol="R$ " type="currency" />
+							</h:outputText>	
+						</div>
+						<div class="icon">
+							<i class="fa fa-dollar"></i>
+						</div>
+						<a href="/SystemAdi/Contrato/Gerenciar" class="small-box-footer">Visualizar <i
+							class="fa fa-arrow-circle-right"></i></a>
+					</div>
+				</div>
+			</div>
+			
+			
+	
+	<div class="row">
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="info-box">
+					<span class="info-box-icon bg-aqua"><i class="fa fa-money"></i></span>
+
+					<div class="info-box-content">
+						<span class="info-box-text">CPU Traffic</span> <span
+							class="info-box-number">90<small>%</small></span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<!-- /.col -->
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="info-box">
+					<span class="info-box-icon bg-red"><i
+						class="fa fa-google-plus"></i></span>
+
+					<div class="info-box-content">
+						<span class="info-box-text">Likes</span> <span
+							class="info-box-number">41,410</span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<!-- /.col -->
+
+			<!-- fix for small devices only -->
+			<div class="clearfix visible-sm-block"></div>
+
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="info-box">
+					<span class="info-box-icon bg-green"><i class="fa fa-check"></i></span>
+
+					<div class="info-box-content">
+						<span class="info-box-text">Sales</span> <span
+							class="info-box-number">760</span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<!-- /.col -->
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="info-box">
+					<span class="info-box-icon bg-yellow"><i
+						class="ion ion-ios-people-outline"></i></span>
+
+					<div class="info-box-content">
+						<span class="info-box-text">New Members</span> <span
+							class="info-box-number">2,000</span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<!-- /.col -->
+		</div>
+		
+		
+		
+		
+		
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,94 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">
+		<h:form id="frmMVD" enctype="multipart/form-data">
+			<p:panel header="Cadastro > LOCADOR">
+				<p:toolbar style="background: #FFFFFF !important; color: #000000 !important; font-size: 12px !important;">
+					<f:facet name="left">
+						<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgLocador').show(); PF('dlgLocador').initPosition();" 
+						actionListener="#{locadorController.novo}" update=":msgGlobal FormCadLocador" 
+						styleClass="btn-primary" onfocus="nomeReceita" />
+					</f:facet>
+
+				</p:toolbar>
+				<p></p>
+
+				<p:dataTable id="tabela" value="#{locadorController.listaLocador}" 
+				filteredValue="#{locadorController.listaLocadorFiltrados}" var="locador" style="text-align: center;" 
+				emptyMessage="Nenhum locador encontrado" reflow="true">
+
+					<p:column headerText="Código" width="10%">
+						<h:outputText value="#{locador.id}" />
+					</p:column>
+
+					<p:column headerText="Nome" width="30%" filterBy="#{locador.pessoa.nomeReceita}" styleClass="ui-fluid">
+						<h:outputText value="#{locador.pessoa.nomeReceita}" />
+					</p:column>
+					
+					<p:column headerText="CPF/CNPJ" width="15%" filterBy="#{locador.pessoa.cpfCnpj}" styleClass="ui-fluid">
+						<h:outputText value="#{locador.pessoa.cpfCnpj}" />
+					</p:column>
+					
+					<p:column headerText="Cadastro" width="15%" sortBy="#{locador.dataCadastro}">
+						<h:outputText value="#{locador.dataCadastro}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Opção" width="5%">
+						<p:commandButton icon="ui-icon-pencil"	actionListener="#{locadorController.editar}" update=":FormCadLocador" 
+						oncomplete="PF('dlgLocador').show(); PF('dlgLocador').initPosition();" styleClass="btn-warning" >
+							<f:attribute name="locadorSelecionado" value="#{locador}" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+	<p:dialog header="Cadastro de Locador(a)" widgetVar="dlgLocador" draggable="true" resizable="false" modal="true" closable="true" 
+	appendTo="@(body)" styleClass="telaTamanhoMedio" responsive="true" focus="FormCadLocador:nomeReceita">
+		<h:form id="FormCadLocador">
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-9" styleClass="ui-fluid ui-panelgrid-blank">
+				<h:panelGroup>		
+					<p:outputLabel value="CPF/CNPJ:"  styleClass="saidanegrito"/>
+					<p:inputText  maxlength="18" value="#{locadorController.locador.pessoa.cpfCnpj}" 
+					onkeypress="mascara(this, cpfCnpj);" required="true" requiredMessage="O Campo CPF/CNPJ é Obrigatório!"  >
+						<p:ajax event="blur" listener="#{locadorController.pesquisaCpfCnpj}" update=":msgGlobal FormCadLocador" 
+						oncomplete="PF('dlgLocador').initPosition()"/> 
+					</p:inputText>	
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Nome:" styleClass="saidanegrito" />
+					<p:inputText id="nomeReceita" maxlength="150" value="#{locadorController.locador.pessoa.nomeReceita}"
+						required="true" requiredMessage="O Campo Nome é Obrigatório!" />
+				</h:panelGroup>
+				
+			</p:panelGrid>	
+			
+			<ui:include src="./pessoaFisica.xhtml" />
+			<ui:include src="./pessoaJuridica.xhtml" />
+			
+			<p></p>
+			<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+				<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{locadorController.salvarLocador}"	
+					update=":msgGlobal :frmMVD :FormCadLocador" styleClass="btn-success"/>
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+	
+	<ui:include src="./cadastroRapido.xhtml" />
+
+	</ui:define>
+</ui:composition>

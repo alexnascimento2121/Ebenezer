@@ -1,0 +1,173 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">
+		<h:form id="frmMVD" enctype="multipart/form-data">
+			<p:panel header="Cadastro > IMÓVEL">
+				<p:toolbar style="background: #FFFFFF !important; color: #000000 !important; font-size: 12px !important;">
+					<f:facet name="left">
+						<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgImovel').show();" 
+						actionListener="#{imovelController.novo}" update=":msgGlobal FormCadImovel" styleClass="btn-primary" />
+					</f:facet>
+
+				</p:toolbar>
+				<p></p>
+
+				<p:dataTable id="tabela" emptyMessage="Nenhum imóvel encontrado" paginator="true" rows="15" reflow="true" 
+				paginatorPosition="bottom" value="#{imovelController.listaImovel}"	
+				filteredValue="#{imovelController.listaImovelFiltrados}" var="imovel" style="text-align: center;">
+
+					<p:column headerText="Código Ceron" width="10%" filterBy="#{imovel.codigoCeron}">
+						<h:outputText value="#{imovel.codigoCeron}" />
+					</p:column>
+					
+					<p:column headerText="Código Caerd" width="10%" filterBy="#{imovel.codigoCaerd}">
+						<h:outputText value="#{imovel.codigoCaerd}" />
+					</p:column>
+
+					<p:column headerText="Descrição" width="30%" filterBy="#{imovel.descricao}" styleClass="ui-fluid">
+						<h:outputText value="#{imovel.descricao}" />
+					</p:column>
+					
+					<p:column headerText="Dono" width="20%" filterBy="#{imovel.dono.pessoa.nomeReceita}" styleClass="ui-fluid">
+						<h:outputText value="#{imovel.dono.pessoa.nomeReceita}" />
+					</p:column>
+					
+					<p:column headerText="Ult. Atualização" width="10%" sortBy="#{imovel.dataUltimaAtualizacao}">
+						<h:outputText value="#{imovel.dataUltimaAtualizacao}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Situacão" width="10%" sortBy="#{contrato.locatario}" styleClass="ui-fluid">
+						<h:outputText value="#{imovel.situacao}" rendered="#{imovel.situacao == 'ATIVO'}" styleClass="badge badge-success" />
+						<h:outputText value="#{imovel.situacao}" rendered="#{imovel.situacao == 'INATIVO'}" styleClass="badge badge-dander" />
+					</p:column>
+
+					<p:column headerText="Opções" width="10%">
+						<p:commandButton icon="ui-icon-pencil"	actionListener="#{imovelController.editar}"	update=":FormCadImovel" 
+						oncomplete="PF('dlgImovel').show();" styleClass="btn-warning">
+							<f:attribute name="imovelSelecionado" value="#{imovel}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+		<p:dialog header="Cadastro de Imóveis" widgetVar="dlgImovel" draggable="true" resizable="false" modal="true" closable="true" 
+		appendTo="@(body)" styleClass="dialogoParecer" responsive="true">
+			<h:form id="FormCadImovel">
+				<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-6,ui-grid-col-2" 
+				styleClass="ui-fluid ui-panelgrid-blank">
+				
+					<h:panelGroup>
+						<p:outputLabel value="Código Ceron: " />
+						<p:inputText maxlength="20"	value="#{imovelController.imovel.codigoCeron}" required="true" 
+						requiredMessage="O Campo Código Ceron é Obrigatório!" />
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<p:outputLabel value="Código Caerd: " />
+						<p:inputText maxlength="20"	value="#{imovelController.imovel.codigoCaerd}" required="true" 
+						requiredMessage="O Campo Código Caerd é Obrigatório!" />
+					</h:panelGroup>
+					
+					<h:panelGroup id="selectLocador">
+						<p:outputLabel value="Dono: " styleClass="saidanegrito"/>
+						<p:selectOneMenu filter="true" value="#{imovelController.imovel.dono}" 
+						converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="O Campo Dono é Obrigatório!" >
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione um Locador " />
+							<f:selectItems value="#{imovelController.listaLocador}" var="locador" itemValue="#{locador}" 
+							itemLabel="#{locador.pessoa.nomeReceita}" />
+						</p:selectOneMenu>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<p:outputLabel value="Situação: " styleClass="saidanegrito" />
+						<p:selectOneMenu value="#{imovelController.imovel.situacao}" >
+							<f:selectItem itemValue="ATIVO" itemLabel="ATIVO" />
+							<f:selectItem itemValue="INATIVO" itemLabel="INATIVO"  />
+						</p:selectOneMenu>
+					</h:panelGroup>
+					
+				</p:panelGrid>
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">	
+					
+					<h:panelGroup>
+						<p:outputLabel value="Descrição do Objeto: " />
+						<p:inputText maxlength="250" value="#{imovelController.imovel.descricao}" required="true" 
+						requiredMessage="O Campo Descrição da Função é Obrigatório!" />
+					</h:panelGroup>
+					
+				</p:panelGrid>
+				<p:panelGrid id="pnlEndereco"  columns="1" layout="grid" columnClasses="ui-grid-col-12" 
+				styleClass="ui-fluid ui-panelgrid-blank">
+					<p:panel header="Endereço">
+						<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2"
+							styleClass="ui-fluid ui-panelgrid-blank">
+	
+							<h:panelGroup>
+								<p:outputLabel value="CEP:" styleClass="saidanegrito" />
+								<p:inputText maxlength="12"	value="#{imovelController.imovel.cep}"
+									required="true" requiredMessage="O Campo CEP é Obrigatório!">
+									<p:ajax event="blur" listener="#{imovelController.consultaCEP}" update="pnlEndereco"  />
+								</p:inputText>
+							</h:panelGroup>
+	
+							<h:panelGroup>
+								<p:outputLabel value="Logradouro:" styleClass="saidanegrito" />
+								<p:inputText maxlength="70" value="#{imovelController.imovel.logradouro}"
+									required="true"	requiredMessage="O Campo Logradouro é Obrigatório!" />
+							</h:panelGroup>
+	
+							<h:panelGroup>
+								<p:outputLabel value="Número:" styleClass="saidanegrito" />
+								<p:inputText maxlength="10"	value="#{imovelController.imovel.numero}"
+									required="true" requiredMessage="O Campo Número é Obrigatório!"	placeholder="Ex. 1020" />
+							</h:panelGroup>
+	
+						</p:panelGrid>
+						<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-5,ui-grid-col-5,ui-grid-col-2"
+							styleClass="ui-fluid ui-panelgrid-blank">
+	
+							<h:panelGroup>
+								<p:outputLabel value="Bairro:" styleClass="saidanegrito" />
+								<p:inputText maxlength="70"	value="#{imovelController.imovel.bairro}"
+									required="true" requiredMessage="O Campo Bairro é Obrigatório!" />
+							</h:panelGroup>
+	
+							<h:panelGroup>
+								<p:outputLabel value="Cidade:" styleClass="saidanegrito" />
+								<p:inputText maxlength="70" value="#{imovelController.imovel.cidade}"
+									required="true" requiredMessage="O Campo Cidade é Obrigatório!" />
+							</h:panelGroup>
+	
+							<h:panelGroup>
+								<p:outputLabel value="Sigla Estado:" styleClass="saidanegrito" />
+								<p:inputText maxlength="3" value="#{imovelController.imovel.estadoSigla}"
+									required="true" requiredMessage="O Campo Sigla Estado é Obrigatório!" />
+							</h:panelGroup>
+	
+						</p:panelGrid>
+					</p:panel>
+				</p:panelGrid>
+
+				<p></p>
+				<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+					<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{imovelController.salvar}"	
+					update=":msgGlobal :frmMVD :FormCadImovel" styleClass="btn-success"/>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>

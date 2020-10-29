@@ -1,0 +1,94 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">
+		<h:form id="frmMVD" enctype="multipart/form-data">
+			<p:panel header="Cadastro > FIADOR">
+				<p:toolbar style="background: #FFFFFF !important; color: #000000 !important; font-size: 12px !important;">
+					<f:facet name="left">
+						<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgFiador').show(); PF('dlgFiador').initPosition();" 
+						actionListener="#{fiadorController.novo}" update=":msgGlobal FormCadFiador" 
+						styleClass="btn-primary" onfocus="nomeReceita" />
+					</f:facet>
+
+				</p:toolbar>
+				<p></p>
+
+				<p:dataTable id="tabela" value="#{fiadorController.listaFiador}" 
+				filteredValue="#{fiadorController.listaFiadorFiltrados}" var="fiador" style="text-align: center;" 
+				emptyMessage="Nenhum fiador encontrado" reflow="true">
+
+					<p:column headerText="Código" width="10%">
+						<h:outputText value="#{fiador.id}" />
+					</p:column>
+
+					<p:column headerText="Nome" width="30%" filterBy="#{fiador.pessoa.nomeReceita}" styleClass="ui-fluid">
+						<h:outputText value="#{fiador.pessoa.nomeReceita}" />
+					</p:column>
+					
+					<p:column headerText="CPF/CNPJ" width="15%" filterBy="#{fiador.pessoa.cpfCnpj}" styleClass="ui-fluid">
+						<h:outputText value="#{fiador.pessoa.cpfCnpj}" />
+					</p:column>
+					
+					<p:column headerText="Cadastro" width="15%" sortBy="#{fiador.dataCadastro}">
+						<h:outputText value="#{fiador.dataCadastro}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Opção" width="5%">
+						<p:commandButton icon="ui-icon-pencil"	actionListener="#{fiadorController.editar}" update=":FormCadFiador" 
+						oncomplete="PF('dlgFiador').show(); PF('dlgFiador').initPosition();" styleClass="btn-warning" >
+							<f:attribute name="fiadorSelecionado" value="#{fiador}" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+	<p:dialog header="Cadastro de fiador(a)" widgetVar="dlgFiador" draggable="true" resizable="false" modal="true" closable="true" 
+	appendTo="@(body)" styleClass="telaTamanhoMedio" responsive="true" focus="FormCadFiador:nomeReceita">
+		<h:form id="FormCadFiador">
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-9" styleClass="ui-fluid ui-panelgrid-blank">
+				<h:panelGroup>		
+					<p:outputLabel value="CPF/CNPJ:"  styleClass="saidanegrito"/>
+					<p:inputText  maxlength="18" value="#{fiadorController.fiador.pessoa.cpfCnpj}" 
+					onkeypress="mascara(this, cpfCnpj);" required="true" requiredMessage="O Campo CPF/CNPJ é Obrigatório!"  >
+						<p:ajax event="blur" listener="#{fiadorController.pesquisaCpfCnpj}" update=":msgGlobal FormCadFiador" 
+						oncomplete="PF('dlgFiador').initPosition()"/> 
+					</p:inputText>	
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel for="nomeReceita" value="Nome:" styleClass="saidanegrito" />
+					<p:inputText id="nomeReceita" maxlength="150" value="#{fiadorController.fiador.pessoa.nomeReceita}"
+						required="true" requiredMessage="O Campo Nome é Obrigatório!" />
+				</h:panelGroup>
+				
+			</p:panelGrid>	
+			
+			<ui:include src="./pessoaFisica.xhtml" />
+			<ui:include src="./pessoaJuridica.xhtml" />
+			
+			<p></p>
+			<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+				<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{fiadorController.salvarFiador}"	
+					update=":msgGlobal :frmMVD :FormCadFiador" styleClass="btn-success"/> 
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+	
+	<ui:include src="./cadastroRapido.xhtml" />
+
+	</ui:define>
+</ui:composition>

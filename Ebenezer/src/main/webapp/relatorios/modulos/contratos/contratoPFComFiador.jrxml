@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contratoPFComFiador" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8b91692f-58f6-4ec2-91ea-453675cc257a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Base Local"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="IDCONTRATO" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT c.datainicio,
+	c.datafim,
+	c.datavencimento,
+	c.porcentagemdesconto,
+	c.quantidadeparcela,
+	c.valorparcela,
+	c.valorcaucao,
+	c.imovel,
+	p1.nomereceita as p1Nome,
+	p1.cpfcnpj as p1CpfCnpj,
+	p1.logradouro as p1Logradouro,
+	p1.numero as p1Numero,
+	p1.bairro as p1Bairro,
+	p1.cidade as p1Cidade,
+	p1.estadosigla as p1Estado,
+	p1.telefone as p1Telefone,
+	p1.email as p1email,
+	pf1.nacionalidade as pf1Nacionalidade,
+	pf1.estadocivil as pf1Estadocivil,
+	pf1.numerodocumento as pf1Numerodocumento,
+	pf1.orgaoemissor as pf1Orgaoemissor,
+	pf1.tipodocumento as pf1Tipodocumento,
+	pro1.descricao as pro1Profissao,
+	p2.nomereceita as locatario
+FROM contrato c LEFT JOIN locador ON 
+	locador.id = c.locador 
+	LEFT JOIN pessoa p1 ON 
+	p1.id = locador.pessoa
+	LEFT JOIN pessoafisica pf1 ON 
+	pf1.pessoa = p1.id 
+	LEFT JOIN profissao pro1 ON 
+	pro1.id = pf1.profissao
+	LEFT JOIN locatario ON
+	locatario.id = c.locatario 
+	LEFT JOIN pessoa p2 ON 
+	p2.id = locatario.pessoa
+	WHERE c.id = $P{IDCONTRATO}]]>
+	</queryString>
+	<field name="datainicio" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="datainicio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="datafim" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="datafim"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="datavencimento" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="datavencimento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="porcentagemdesconto" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="porcentagemdesconto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="quantidadeparcela" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="quantidadeparcela"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="valorparcela" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="valorparcela"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="valorcaucao" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="valorcaucao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="imovel" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="imovel"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="p1nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1cpfcnpj" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1cpfcnpj"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1logradouro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1logradouro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1numero" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1numero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1bairro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1bairro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1cidade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1cidade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1estado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1estado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1telefone" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1telefone"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="pf1nacionalidade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pf1nacionalidade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoafisica"/>
+	</field>
+	<field name="pf1estadocivil" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pf1estadocivil"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoafisica"/>
+	</field>
+	<field name="pf1numerodocumento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pf1numerodocumento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoafisica"/>
+	</field>
+	<field name="pf1orgaoemissor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pf1orgaoemissor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoafisica"/>
+	</field>
+	<field name="pf1tipodocumento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pf1tipodocumento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoafisica"/>
+	</field>
+	<field name="pro1profissao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pro1profissao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="profissao"/>
+	</field>
+	<field name="locatario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="locatario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="18" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="0" width="555" height="18" uuid="1ab6f261-2694-4697-bcc8-68a9c04e7cdf">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CONTRATO DE LOCAÇÃO DE IMÓVEL PARA FIM RESIDENCIAL"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="10" width="555" height="20" uuid="a06fe436-9888-4c9c-bc28-9bea07d64062"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA["LOCADOR(A): <b> " + $F{p1nome} + "</b>, de nacionalidade <b>" + $F{pf1nacionalidade} + ", " + $F{pf1estadocivil} + ", " + $F{pro1profissao} + "</b>, portador da cédula de identidade <b>" + $F{pf1tipodocumento} + " " + $F{pf1numerodocumento} + " " + $F{pf1orgaoemissor} + "</b>,  e inscrita(a) com o <b>CPF " + $F{p1cpfcnpj} + "</b>, residente e domiciliado(a) à <b>" + $F{p1logradouro} + ", " + $F{p1numero} + "</b>, bairro <b>" + $F{p1bairro} + "</b> na cidade de <b>" + $F{p1cidade}  + "/" + $F{p1estado} + "</b>, telefone <b>" + $F{p1telefone} + "</b>, e-mail <b>" + $F{p1email} + "</b>."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+       		<link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favIcon/favicon.png']}" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <h:outputScript library="js" name="mascara.js" />
+        <title>Ebenezer</title>
+        
+        <h:outputStylesheet library="css" name="login.css" />
+    </h:head>
+
+    <h:body styleClass="fundo">
+    <p:growl id="msgGlobal" />
+    
+     <p:dialog id="modalDialog" header="Tela de Autenticação" widgetVar="dlg2" draggable="false" resizable="false" modal="false" closable="false" appendTo="@(body)" 
+     visible="true" responsive="true">
+         <h:form id="autenticacaosicoob" enctype="multipart/form-data">
+                <div class="ui-g-12" align="center">
+                <p:outputLabel />
+               		<br></br>
+                    <p:graphicImage name="logoLogin.png" library="images" />
+                </div>
+            	<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank center-table">
+                	
+                	<p:outputLabel />
+                	
+                	<h:panelGroup>
+						<p:outputLabel value="CPF: " />
+						<p:inputText maxlength="14" value="#{autenticacaoController.usuarioLogado.login}" required="true" 
+						requiredMessage="O Campo CPF/CNPJ é Obrigatório!" onkeypress="mascara(this, cpfCnpj);"/>
+					</h:panelGroup>
+                
+           			<p:outputLabel />
+           			
+           			<h:panelGroup>
+						<p:outputLabel value="Senha: " />
+						<p:password maxlength="20" value="#{autenticacaoController.usuarioLogado.senha}" required="true" 
+						requiredMessage="O Campo Senha é Obrigatório!" />
+					</h:panelGroup>
+                
+                	<p:outputLabel />
+                    <p:commandButton value="Logar" action="#{autenticacaoController.autenticar}" 
+                    update=":msgGlobal autenticacaosicoob" styleClass="btn-success" />
+               		<p:outputLabel />
+          		</p:panelGrid>
+          </h:form>
+          
+       </p:dialog>
+        
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+				<p:graphicImage library="carregar" name="ajax-loader.gif" />
+		</p:dialog>
+        
+    </h:body>
+
+</html>

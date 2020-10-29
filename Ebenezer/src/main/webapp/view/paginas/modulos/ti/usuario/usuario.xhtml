@@ -1,0 +1,130 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">
+		<h:form id="frmMVD" enctype="multipart/form-data">
+			<p:panel header="Admin - T.I. > Usuário">
+				<p:toolbar style="background: #FFFFFF !important; color: #000000 !important; font-size: 12px !important;">
+					<f:facet name="left">
+						<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgUsuario').show();" 
+						actionListener="#{usuarioController.novo}" update=":msgGlobal FormCadUsuario" 
+						styleClass="btn-primary" /> 
+					</f:facet>
+
+				</p:toolbar>
+				<p></p>
+
+				<p:dataTable id="tabela" emptyMessage="Nenhum usuário encontrado" reflow="true" 
+				value="#{usuarioController.listaUsuario}" filteredValue="#{usuarioController.listaUsuarioFiltrados}" 
+				var="usuario" style="text-align: center;">
+
+					<p:column headerText="Código" width="10%">
+						<h:outputText value="#{usuario.id}" />
+					</p:column>
+					
+					<p:column headerText="Funcionário(a)" width="35%" 
+					filterBy="#{usuario.funcionario.pessoaFisica.pessoa.nomeReceita}" styleClass="ui-fluid">
+						<h:outputText value="#{usuario.funcionario.pessoaFisica.pessoa.nomeReceita}" /> 
+					</p:column>
+
+					<p:column headerText="Login" width="20%" filterBy="#{usuario.login}" styleClass="ui-fluid">
+						<h:outputText value="#{usuario.login}" />
+					</p:column>
+					
+					<p:column headerText="Situação" width="10%" filterBy="#{usuario.situacao}" styleClass="ui-fluid">
+						<h:outputText value="#{usuario.situacao}" rendered="#{usuario.situacao == 'ATIVO'}" 
+						styleClass="badge badge-success"/>
+						<h:outputText value="#{usuario.situacao}" rendered="#{usuario.situacao == 'INATIVO'}" 
+						styleClass="badge badge-danger"/>
+					</p:column>
+
+					<p:column headerText="Cadastro" width="10%">
+						<h:outputText value="#{usuario.dataCadastro}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Opção" width="15%">
+						<p:commandButton icon="ui-icon-pencil"	actionListener="#{usuarioController.editar}" 
+						update=":FormCadUsuario" oncomplete="PF('dlgUsuario').show();" styleClass="btn-warning">
+							<f:attribute name="usuarioSelecionado" value="#{usuario}" />
+						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-check"	actionListener="#{usuarioController.atualizaSituacao}" 
+						update="frmMVD" styleClass="btn-success" rendered="#{usuario.situacao == 'INATIVO'}">
+							<p:confirm header="Confirmação"	message="Deseja Ativar o usuário o #{usuario.login}?" 
+							icon="ui-icon-alert" />
+							<f:attribute name="usuarioSelecionado" value="#{usuario}" />
+						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-remove" actionListener="#{usuarioController.atualizaSituacao}" 
+						update="frmMVD" styleClass="btn-danger" rendered="#{usuario.situacao == 'ATIVO'}">
+							<p:confirm header="Confirmação"	message="Deseja Inativar o usuário o #{usuario.login}?" 
+							icon="ui-icon-alert" />
+							<f:attribute name="usuarioSelecionado" value="#{usuario}" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+
+		<p:dialog header="Cadastro de Usuário" widgetVar="dlgUsuario" draggable="true" resizable="false" 
+		modal="true" closable="true" appendTo="@(body)" responsive="true">
+			<h:form id="FormCadUsuario">
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+					
+				<h:panelGroup>
+				<p:outputLabel value="Funcionário: " styleClass="saidanegrito"/>
+				<p:selectOneMenu filter="true" value="#{usuarioController.usuario.funcionario}" 
+				converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="O Campo Funcionário é Obrigatório!">
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione um Funcionário " />
+						<f:selectItems value="#{usuarioController.listaFuncionario}" var="funcionario" itemValue="#{funcionario}" 
+						itemLabel="#{funcionario.pessoaFisica.pessoa.nomeReceita}" />
+						<p:ajax event="change" listener="#{usuarioController.selecionaLogin}" update="FormCadUsuario" />
+				</p:selectOneMenu>
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Login: " styleClass="saidanegrito" />
+					<p:inputText maxlength="20" value="#{usuarioController.usuario.login}" required="true" 
+					requiredMessage="O Campo Login é Obrigatório!" readonly="true"/>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Senha: " styleClass="saidanegrito" />
+					<p:password maxlength="15" value="#{usuarioController.usuario.senha}" required="true" 
+					requiredMessage="O Campo Senha é Obrigatório!"/>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Situação: " styleClass="saidanegrito" />
+					<p:selectOneMenu value="#{usuarioController.usuario.situacao}" >
+							<f:selectItem itemValue="ATIVO" itemLabel="ATIVO" />
+							<f:selectItem itemValue="FÉRIAS" itemLabel="FÉRIAS"  />
+							<f:selectItem itemValue="INATIVO" itemLabel="INATIVO"  />
+					</p:selectOneMenu>
+					</h:panelGroup>
+				
+			</p:panelGrid>
+
+				<br></br>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{usuarioController.salvar}"	
+					update=":msgGlobal :FormCadUsuario" styleClass="btn-success"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reciboAvulso" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="04e9126e-3c28-432d-b739-fce87f81a231">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Base Local"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="IDRECIBO" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT reciboavulso.data,
+	reciboavulso.descricao,
+	reciboavulso.valor,
+	reciboavulso.valorporextenso,
+	reciboavulso.credorpagou,
+	reciboavulso.credorrecebeu,
+	reciboavulso.id,
+	p1.cpfcnpj as p1cpfcnpj,
+	p1.nomereceita as p1nomereceita,
+	p1.logradouro as p1logradouro,
+	p1.numero as p1numero,
+	p1.bairro as p1bairro,
+	p1.cidade as p1cidade,
+	p1.estadosigla as p1estadosigla,
+	p2.cpfcnpj as p2cpfcnpj,
+	p2.nomereceita as p2nomereceita,
+	p2.logradouro as p2logradouro,
+	p2.numero as p2numero,
+	p2.bairro as p2bairro,
+	p2.cidade as p2cidade,
+	p2.estadosigla as p2estadosigla
+FROM reciboavulso 
+	LEFT JOIN credor c1 ON 
+	c1.id = reciboavulso.credorpagou 
+	LEFT JOIN pessoa p1 ON 
+	p1.id = c1.pessoa 
+	
+	LEFT JOIN credor c2 ON 
+	c2.id = reciboavulso.credorrecebeu 
+	LEFT JOIN pessoa p2 ON 
+	p2.id = c2.pessoa 
+	WHERE reciboavulso.id = $P{IDRECIBO}]]>
+	</queryString>
+	<field name="data" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="data"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reciboavulso"/>
+	</field>
+	<field name="descricao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="descricao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reciboavulso"/>
+	</field>
+	<field name="valor" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="valor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reciboavulso"/>
+	</field>
+	<field name="valorporextenso" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="valorporextenso"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reciboavulso"/>
+	</field>
+	<field name="credorpagou" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="credorpagou"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reciboavulso"/>
+	</field>
+	<field name="credorrecebeu" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="credorrecebeu"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reciboavulso"/>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="reciboavulso"/>
+	</field>
+	<field name="p1cpfcnpj" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1cpfcnpj"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1nomereceita" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1nomereceita"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1logradouro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1logradouro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1numero" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1numero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1bairro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1bairro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1cidade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1cidade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p1estadosigla" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p1estadosigla"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p2cpfcnpj" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p2cpfcnpj"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p2nomereceita" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p2nomereceita"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p2logradouro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p2logradouro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p2numero" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p2numero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p2bairro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p2bairro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p2cidade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p2cidade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<field name="p2estadosigla" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="p2estadosigla"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="269" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="555" height="269" backcolor="#BAE0FF" uuid="289bd5c2-10cd-44d9-bead-9d425d019172">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="8.0" lineStyle="Solid" lineColor="#569EF0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="6">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="10" y="40" width="535" height="220" uuid="8676b678-193a-43d6-865c-7c0b6618bfd9">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle radius="6">
+				<reportElement positionType="Float" x="330" y="156" width="207" height="101" uuid="e1b53260-14e9-4c60-bd74-869d73504d29"/>
+			</rectangle>
+			<rectangle radius="6">
+				<reportElement positionType="Float" x="189" y="130" width="177" height="22" uuid="c270fef6-3566-4b57-ad74-ad1b28171ef0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle radius="6">
+				<reportElement positionType="Float" x="366" y="130" width="172" height="22" uuid="ef5fc5c4-7a50-4d1b-bb7d-d39e6917168f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle radius="6">
+				<reportElement positionType="Float" x="17" y="130" width="172" height="22" uuid="0cdeded8-732f-46f9-bd40-c4d5fe46f5fb">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle radius="6">
+				<reportElement positionType="Float" x="300" y="10" width="244" height="24" uuid="cdc8de83-bdea-4bb8-99ed-578c7bcf9bd1"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="16" y="10" width="84" height="24" uuid="921531aa-b1da-4478-942b-6ec92a645cd6"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECIBO]]></text>
+			</staticText>
+			<rectangle radius="6">
+				<reportElement positionType="Float" x="100" y="10" width="189" height="24" uuid="fffd6ed1-1a80-4e42-81ea-ee853ec84573"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="308" y="12" width="229" height="20" uuid="287a8dcc-8e3c-4c38-91c0-1ace45bc23a7"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html">
+					<font size="15" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["VALOR:  <b>" + java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format($F{valor}.doubleValue()) + "</b>"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="17" y="43" width="523" height="16" uuid="704af3d3-c139-4c84-8c0c-1cbf66b76578">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RECEBI(EMOS) DE <b>" + $F{p1nomereceita} + "</b>, inscrita com o CPF: <b>" + $F{p1cpfcnpj} + "</b>"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="16" y="60" width="523" height="16" uuid="d1bdeeba-8b8b-41ab-a03b-c266b54d8238">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ENDEREÇO <b> " + $F{p1logradouro} + ", Nº " + $F{p1numero} + ", </b> BAIRRO: <b>" + $F{p1bairro} + ", </b> NA CIDADE DE <b> " + $F{p1cidade} + " - " + $F{p1estadosigla} + "</b>"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="16" y="77" width="523" height="16" uuid="1c2c7a5e-f23b-4f65-9033-7c42f9a643c1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["A IMPORTÂNCIA DE  <b>" + $F{valorporextenso} + "</b>"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="16" y="94" width="523" height="16" uuid="408c2a2c-0f4d-4aea-917c-42fddbf900f1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["REFERENTE A  <b>" + $F{descricao} + "</b>"]]></textFieldExpression>
+			</textField>
+			<rectangle radius="6">
+				<reportElement positionType="Float" x="17" y="116" width="521" height="14" uuid="53cb4d06-61b4-4db8-a582-b6a0efd46079"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="20" y="116" width="518" height="14" uuid="86e73156-d913-44a4-9ced-82e423ca7ed9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["RECEBIMENTO ATRAVÉS DE CHEQUE"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="22" y="132" width="68" height="14" uuid="9da0ff54-a8a1-4e0c-a74f-25b0acd43dd0"/>
+				<textElement textAlignment="Left" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA["CHEQUE Nº:"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="194" y="132" width="68" height="14" uuid="80df5221-b657-4676-8353-b3ed7846896d"/>
+				<textElement textAlignment="Left" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA["BANCO:"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="371" y="132" width="68" height="14" uuid="7382c7c8-2ce4-477d-9c49-6137f7612e81"/>
+				<textElement textAlignment="Left" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA["AGÊNCIA"]]></textFieldExpression>
+			</textField>
+			<rectangle radius="6">
+				<reportElement positionType="Float" x="17" y="157" width="302" height="100" uuid="3e9f4a39-170d-436f-ab8a-a61d9973f292"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="110" y="12" width="169" height="20" uuid="3611f940-8b0f-47b7-83ea-afc3c3e63de1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html">
+					<font size="15" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nº:  <b>" + $F{id} + "</b>"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="22" y="161" width="296" height="90" uuid="8647bf07-d438-4284-857c-72b58c5bdfb9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top" markup="html">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NOME EMITENTE:  <b>" + $F{p2nomereceita} + "</b>" + "<p>" + "ENDEREÇO <b> " + $F{p2logradouro} + ", Nº " + $F{p2numero} + ", </b> BAIRRO: <b>" + $F{p2bairro} + ", </b> NA CIDADE DE <b> " + $F{p2cidade} + " - " + $F{p2estadosigla} + "</b>" + "</p>" + "<p>" + "CPF/CNPJ/RG:  <b>" + $F{p1cpfcnpj} + "</b>" + "</p>"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="335" y="160" width="201" height="16" uuid="cafc98fe-b7f6-4d2e-9e0b-0ed83b668a69">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DATA:  <b>" + new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{data}) + "</b>"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="400" y="238" width="68" height="14" uuid="2c9a0991-5270-4129-abf4-2ed6595972d6"/>
+				<textElement textAlignment="Left" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA["ASSINATURA"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="330" y="224" width="206" height="14" uuid="dc4d7931-4ced-425e-8ce1-926174b0d384"/>
+				<textElement textAlignment="Left" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA["__________________________________________________"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

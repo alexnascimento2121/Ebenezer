@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog header="Cadastro de Funções" widgetVar="dlgFuncao" draggable="true" resizable="false" modal="true" closable="true" 
+	appendTo="@(body)" responsive="true">
+			<h:form id="FormCadFuncao">
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+					
+					<h:panelGroup>
+					<p:outputLabel value="Descrição da Função: " />
+					<p:inputText maxlength="50"	value="#{funcionarioController.funcao.descricao}" required="true" 
+					requiredMessage="O Campo Descrição da Função é Obrigatório!" />
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Data de Cadastro: " />
+					<p:inputText maxlength="50" value="#{funcionarioController.funcao.dataCadastro}" readonly="true">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho" /> 
+					</p:inputText>
+					</h:panelGroup>
+				</p:panelGrid>
+
+				<br></br>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{funcionarioController.salvarFuncao}" 
+					update=":msgGlobal :FormCadFuncionario:pnlFuncao" oncomplete="PF('dlgFuncao').hide();" 
+					styleClass="btn-success"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	
+</ui:composition>

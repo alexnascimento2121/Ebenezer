@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretty-config
+	xmlns="http://ocpsoft.com/prettyfaces/3.3.3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.3 http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.3.xsd">
+
+	<!-- MENU DO USUARIO <url-mapping id="principal"> <pattern value="/Home" 
+		/> <view-id value="/templates/template.xhtml" /> </url-mapping> -->
+
+	<url-mapping id="autenticacao">
+		<pattern value="/Autenticacao" />
+		<view-id value="/view/paginas/autenticacao/autenticacao.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="dashboard">
+		<pattern value="/Dashboard" />
+		<view-id value="/view/paginas/principal/dashboard.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="tiUsuarioAdministrador">
+		<pattern value="/TI/UsuarioAdministrador" />
+		<view-id value="/view/paginas/modulos/ti/usuarioAdministracao/usuarioAdministracao.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="tiInstituicao">
+		<pattern value="/TI/Instituicao" />
+		<view-id value="/view/paginas/modulos/ti/instituicao/instituicao.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="cliente">
+		<pattern value="/Cadastro/Cliente" />
+		<view-id value="/view/paginas/modulos/cadastro/cliente/cliente.xhtml" />
+	</url-mapping>
+</pretty-config>

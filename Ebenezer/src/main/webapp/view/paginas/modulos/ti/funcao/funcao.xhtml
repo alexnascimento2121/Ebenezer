@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">
+		<h:form id="frmMVD" enctype="multipart/form-data">
+			<p:panel header="GESTÃO DE PESSOAS > FUNÇÃO">
+				<p:toolbar style="background: #FFFFFF !important; color: #000000 !important; font-size: 12px !important;">
+					<f:facet name="left">
+						<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgFuncao').show();" actionListener="#{funcaoController.novo}"	
+						update=":msgGlobal FormCadFuncao" styleClass="btn-primary" />
+					</f:facet>
+
+				</p:toolbar>
+				<p></p>
+
+				<p:dataTable id="tabela" emptyMessage="Nenhuma Função encontrada" paginator="true" rows="15" reflow="true" paginatorPosition="bottom" 
+				value="#{funcaoController.listaFuncao}"	filteredValue="#{funcaoController.listaFuncaoFiltrados}" var="funcao" style="text-align: center;">
+
+					<p:column headerText="ID" width="15%">
+						<h:outputText value="#{funcao.id}" />
+					</p:column>
+
+					<p:column headerText="Descrição da função" width="60%" filterBy="#{funcao.descricao}" styleClass="ui-fluid">
+						<h:outputText value="#{funcao.descricao}" />
+					</p:column>
+
+					<p:column headerText="Cadastro" width="15%">
+						<h:outputText value="#{funcao.dataCadastro}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Opções" width="10%">
+						<p:commandButton icon="ui-icon-pencil"	actionListener="#{funcaoController.editar}"	update=":FormCadFuncao" oncomplete="PF('dlgFuncao').show();" styleClass="btn-warning">
+							<f:attribute name="funcaoSelecionada" value="#{funcao}" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+
+		<p:dialog header="Cadastro de Funções" widgetVar="dlgFuncao" draggable="true" resizable="false" modal="true" closable="true" appendTo="@(body)" responsive="true">
+			<h:form id="FormCadFuncao">
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+					
+					<h:panelGroup>
+					<p:outputLabel value="Descrição da Função: " />
+					<p:inputText maxlength="50"	value="#{funcaoController.funcao.descricao}" required="true" requiredMessage="O Campo Descrição da Função é Obrigatório!" />
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Data de Cadastro: " />
+					<p:inputText maxlength="50" value="#{funcaoController.funcao.dataCadastro}" readonly="true">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho" />
+					</p:inputText>
+					</h:panelGroup>
+				</p:panelGrid>
+
+				<br></br>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{funcaoController.salvar}"	update=":msgGlobal :frmMVD :FormCadFuncao" 
+					oncomplete="PF('dlgFuncao').hide();" styleClass="btn-success"/>
+					<p:commandButton value="Cancelar" icon="fa fa-remove" oncomplete="PF('dlgFuncao').hide();" styleClass="btn-danger" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>

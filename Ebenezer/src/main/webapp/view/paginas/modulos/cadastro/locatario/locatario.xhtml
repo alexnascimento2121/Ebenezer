@@ -1,0 +1,94 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">nteudo">
+		<h:form id="frmMVD" enctype="multipart/form-data">
+			<p:panel header="Cadastro > LOCATARIO">
+				<p:toolbar style="background: #FFFFFF !important; color: #000000 !important; font-size: 12px !important;">
+					<f:facet name="left">
+						<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgLocatario').show(); PF('dlgLocatario').initPosition();" 
+						actionListener="#{locatarioController.novo}" update=":msgGlobal FormCadLocatario" 
+						styleClass="btn-primary" onfocus="nomeReceita" />
+					</f:facet>
+
+				</p:toolbar>
+				<p></p>
+
+				<p:dataTable id="tabela" value="#{locatarioController.listaLocatario}" 
+				filteredValue="#{locatarioController.listaLocatarioFiltrados}" var="locatario" style="text-align: center;" 
+				emptyMessage="Nenhum locatario encontrado" reflow="true">
+
+					<p:column headerText="Código" width="10%">
+						<h:outputText value="#{locatario.id}" />
+					</p:column>
+
+					<p:column headerText="Nome" width="30%" filterBy="#{locatario.pessoa.nomeReceita}" styleClass="ui-fluid">
+						<h:outputText value="#{locatario.pessoa.nomeReceita}" />
+					</p:column>
+					
+					<p:column headerText="CPF/CNPJ" width="15%" filterBy="#{locatario.pessoa.cpfCnpj}" styleClass="ui-fluid">
+						<h:outputText value="#{locatario.pessoa.cpfCnpj}" />
+					</p:column>
+					
+					<p:column headerText="Cadastro" width="15%" sortBy="#{locatario.dataCadastro}">
+						<h:outputText value="#{locatario.dataCadastro}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Opção" width="5%">
+						<p:commandButton icon="ui-icon-pencil"	actionListener="#{locatarioController.editar}" update=":FormCadLocatario" 
+						oncomplete="PF('dlgLocatario').show(); PF('dlgLocatario').initPosition();" styleClass="btn-warning" >
+							<f:attribute name="locatarioSelecionado" value="#{locatario}" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+	<p:dialog header="Cadastro de locatario(a)" widgetVar="dlgLocatario" draggable="true" resizable="false" modal="true" closable="true" 
+	appendTo="@(body)" styleClass="telaTamanhoMedio" responsive="true" focus="FormCadLocatario:nomeReceita">
+		<h:form id="FormCadLocatario">
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-9" styleClass="ui-fluid ui-panelgrid-blank">
+				<h:panelGroup>		
+					<p:outputLabel value="CPF/CNPJ:"  styleClass="saidanegrito"/>
+					<p:inputText  maxlength="18" value="#{locatarioController.locatario.pessoa.cpfCnpj}" 
+					onkeypress="mascara(this, cpfCnpj);" required="true" requiredMessage="O Campo CPF/CNPJ é Obrigatório!"  >
+						<p:ajax event="blur" listener="#{locatarioController.pesquisaCpfCnpj}" update=":msgGlobal FormCadLocatario" 
+						oncomplete="PF('dlgLocatario').initPosition()"/> 
+					</p:inputText>	
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel for="nomeReceita" value="Nome:" styleClass="saidanegrito" />
+					<p:inputText id="nomeReceita" maxlength="150" value="#{locatarioController.locatario.pessoa.nomeReceita}"
+						required="true" requiredMessage="O Campo Nome é Obrigatório!" />
+				</h:panelGroup>
+				
+			</p:panelGrid>	
+			
+			<ui:include src="./pessoaFisica.xhtml" />
+			<ui:include src="./pessoaJuridica.xhtml" />
+			
+			<p></p>
+			<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+				<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{locatarioController.salvarLocatario}"	
+					update=":msgGlobal :frmMVD :FormCadLocatario" styleClass="btn-success"/>
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+	
+	<ui:include src="./cadastroRapido.xhtml" />
+
+	</ui:define>
+</ui:composition>

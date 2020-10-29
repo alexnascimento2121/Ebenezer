@@ -1,0 +1,182 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">
+		<h:form id="frmMVD" enctype="multipart/form-data" >
+			<p:panel header="Usuários da Administração">
+				<p:dataTable id="tabela" emptyMessage="Nenhum Usuário encontrado" paginator="true"	rows="10" reflow="true"
+				value="#{usuarioAdministracaoController.listaUsuarioAdministracao}" var="usuario" paginatorPosition="bottom">
+
+					<p:column headerText="ID" width="4%" filterBy="#{usuario.id}" styleClass="ui-fluid">
+						<h:outputText value="#{usuario.id}" />
+					</p:column>
+					
+					<p:column headerText="Nome" width="25%" filterBy="#{usuario.nomeFuncionario}" styleClass="ui-fluid">
+						<h:outputText value="#{usuario.nomeFuncionario}" />
+					</p:column>
+
+					<p:column headerText="Login" width="13%" filterBy="#{usuario.login}" styleClass="ui-fluid">
+						<h:outputText value="#{usuario.login}" />
+					</p:column>
+					
+					<p:column headerText="Senha Criptografada" width="25%">
+						<h:outputText value="#{usuario.senha}" />
+					</p:column>
+					
+					<p:column headerText="Situação" width="8%">
+						<h:outputText value="#{usuario.situacao}" rendered="#{usuario.situacao == 'Inativo'}" 
+						styleClass="badge badge-danger" />
+						<h:outputText value="#{usuario.situacao}" rendered="#{usuario.situacao == 'Ativo'}" 
+						styleClass="badge badge-success" />
+					</p:column>
+
+					<p:column headerText="Data de Cadastro" width="11%">
+						<h:outputText value="#{usuario.dataCadastro}" >
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho"/>
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Opções" width="14%" style="text-align: center;">
+						<p:commandButton icon="fa fa-pencil" actionListener="#{usuarioAdministracaoController.editar}" 
+						update=":msgGlobal :FormCadUsuario" oncomplete="PF('dlgUsuario').show();" styleClass="btn-warning">
+							<f:attribute name="usuarioSelecionado" value="#{usuario}" />
+						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-check" actionListener="#{usuarioAdministracaoController.editar}" 
+						update=":msgGlobal :FormUsuSituacao" oncomplete="PF('UsuSituacao').show();" styleClass="btn-success">
+							<f:attribute name="usuarioSelecionado" value="#{usuario}" />
+						</p:commandButton>
+						
+					</p:column>
+					
+				</p:dataTable>
+				<br></br>
+				<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgUsuario').show();" 
+				actionListener="#{usuarioAdministracaoController.novo}" update=":msgGlobal :FormCadUsuario" styleClass="btn-primary" />
+			</p:panel>
+		</h:form>
+
+
+		<p:dialog header="Cadastro de Usuários Administração" widgetVar="dlgUsuario" draggable="false" resizable="false" modal="true" 
+		closable="true" appendTo="@(body)" responsive="true" styleClass="dialogoSemAltura" height="90%">
+			<h:form id="FormCadUsuario">
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+					<h:panelGroup>
+					<p:outputLabel value="ID: " styleClass="saidanegrito"/>
+					<p:inputText value="#{usuarioAdministracaoController.usuarioAdministracao.id}" 
+					required="true" requiredMessage="O Campo ID é Obrigatório!" readonly="true"/>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Nome Funcionário: " styleClass="saidanegrito"/>
+					<p:inputText filter="true" value="#{usuarioAdministracaoController.usuarioAdministracao.nomeFuncionario}" 
+					required="true" requiredMessage="O Campo Nome Funcionário é Obrigatório!"/>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Login: " styleClass="saidanegrito"/>
+					<p:inputText value="#{usuarioAdministracaoController.usuarioAdministracao.login}" 
+					required="true" requiredMessage="O Campo Login é Obrigatório!"/>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Senha: " styleClass="saidanegrito"/>
+					<p:password value="#{usuarioAdministracaoController.usuarioAdministracao.senha}" 
+					required="true" requiredMessage="O Campo Senha é Obrigatório!"/>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Situação: " styleClass="saidanegrito"/>
+					<p:selectOneMenu value="#{usuarioAdministracaoController.usuarioAdministracao.situacao}" 
+					required="true" requiredMessage="O Campo Situação é Obrigatório!" >
+							<f:selectItem itemValue="Ativo" itemLabel="Ativo" />
+							<f:selectItem itemValue="Inativo" itemLabel="Inativo"  />
+					</p:selectOneMenu>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Tipo de Acesso: " styleClass="saidanegrito"/>
+					<p:selectOneMenu value="#{usuarioAdministracaoController.usuarioAdministracao.tipoAcesso}" 
+					required="true" requiredMessage="O Campo Situação é Obrigatório!" >
+							<f:selectItem itemValue="T.I." itemLabel="T.I." />
+							<f:selectItem itemValue="Contabilidade" itemLabel="Contabilidade"  />
+					</p:selectOneMenu>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Data de Cadastro: " styleClass="saidanegrito"/>
+					<p:inputText value="#{usuarioAdministracaoController.usuarioAdministracao.dataCadastro}" readonly="true" >
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho"/>
+					</p:inputText>
+					</h:panelGroup>
+				</p:panelGrid>
+
+				<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+					<p:commandButton value="Gravar" icon="fa fa-check" actionListener="#{usuarioAdministracaoController.salvar}" 
+					update=":msgGlobal :frmMVD :FormCadUsuario" styleClass="btn-success"/>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog header="Atualizar Situação do Usuários da Administração" widgetVar="UsuSituacao" draggable="true" resizable="false" modal="true" 
+		closable="true" appendTo="@(body)" styleClass="dialogoSemAltura" height="90%">
+			<h:form id="FormUsuSituacao">
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+					<h:panelGroup>
+					<p:outputLabel value="ID: " styleClass="saidanegrito"/>
+					<p:inputText value="#{usuarioAdministracaoController.usuarioAdministracao.id}" 
+					required="true" requiredMessage="O Campo ID é Obrigatório!" readonly="true"/>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Nome Funcionário: " styleClass="saidanegrito"/>
+					<p:inputText value="#{usuarioAdministracaoController.usuarioAdministracao.nomeFuncionario}" 
+					required="true" requiredMessage="O Campo Nome Funcionário é Obrigatório!" readonly="true"/>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Login: " styleClass="saidanegrito"/>
+					<p:inputText value="#{usuarioAdministracaoController.usuarioAdministracao.login}" 
+					required="true" requiredMessage="O Campo Login é Obrigatório!" readonly="true"/>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Situação: " styleClass="saidanegrito"/>
+					<p:selectOneMenu value="#{usuarioAdministracaoController.usuarioAdministracao.situacao}" required="true" 
+					requiredMessage="O Campo Situação é Obrigatório!" >
+						<f:selectItem itemValue="Ativo" itemLabel="Ativo" />
+						<f:selectItem itemValue="Inativo" itemLabel="Inativo"  />
+					</p:selectOneMenu>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Tipo de Acesso: " styleClass="saidanegrito"/>
+					<p:inputText value="#{usuarioAdministracaoController.usuarioAdministracao.tipoAcesso}" readonly="true"/>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Data de Cadastro: " styleClass="saidanegrito"/>
+					<p:inputText value="#{usuarioAdministracaoController.usuarioAdministracao.dataCadastro}" readonly="true" >
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho"/>
+					</p:inputText>
+					</h:panelGroup>
+				</p:panelGrid>
+
+				<h:panelGrid columns="2">
+				<p:commandButton value="Gravar" icon="fa fa-check" actionListener="#{usuarioAdministracaoController.desativaAtiva}" 
+				update=":msgGlobal :frmMVD :FormUsuSituacao" styleClass="btn-success" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+    </ui:define>
+</ui:composition>

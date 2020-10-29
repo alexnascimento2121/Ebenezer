@@ -1,0 +1,1133 @@
+@CHARSET "UTF-8";
+
+.ui-widget, .ui-widget, .ui-widget {
+	font-size: 100% !important;
+}
+
+.ui-widget .ui-widget {
+    font-size: 10.5px ;
+}
+
+.gridTopo {
+	background: #30383c !important;
+}
+
+.gridMenuPrincipal{
+	background: white;
+}
+
+.gridConteudo {
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: -5px;
+	margin-bottom: 40px;
+}
+
+.footer {
+	position:absolute;
+    bottom:0;
+    width:100%;
+}
+
+.rodape {
+	background-image: linear-gradient(to bottom, #e0e0e0 0%, #f7f5f5 100%);
+    width: 99% !important;
+    height: 35px;
+    position: fixed;
+    bottom: 0px;
+    color: black;
+    margin-left: 5px;
+	margin-right: 5px;
+}
+
+.fa-wifi:before {
+	content: "\f1eb";
+	font-size: 25px;
+}
+
+.tamanhoVertical {
+	height: 95% !important;
+}
+
+.tamanhoVertical70 {
+	height: 70% !important;
+}
+
+.tamanhoVerticalPanel {
+	width: 80% !important;
+}
+
+@media screen and (max-width: 320px) {
+	#icone {
+	cursor: pointer;
+	margin-left: 300px !important;
+	margin-top: 8px;
+	position: absolute;
+	z-index: 1;
+}
+	.mobile {
+		width: 95% !important;
+		height: 95% !important;
+	}
+	.DialogoPequenoSimples {
+		width: 90% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequeno {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoParecer {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaMedia {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaTamanhoMedio {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoSemAltura {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaGrande {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoGrandeSemAltura {
+		width: 90% !important;
+		overflow: auto !important;
+	}
+	.telaCadastroMedio {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaGrandePadrao {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.espacametoResponsivo{
+	line-height: 15px !important;
+	}
+}
+
+@media screen and (min-width: 320px) and (max-width: 375px) {
+	#icone {
+	cursor: pointer;
+	margin-left: 300px;
+	margin-top: 8px;
+	position: absolute;
+	z-index: 1;
+}
+	
+	.mobile {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequenoSimples {
+		width: 90% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequeno {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoParecer {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaMedia {
+		width: 95% !important;
+		height: 90% !important;
+	}
+	.telaTamanhoMedio {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoSemAltura {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaGrande {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoGrandeSemAltura {
+		width: 90% !important;
+		overflow: auto !important;
+	}
+	.telaCadastroMedio {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaGrandePadrao {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.espacametoResponsivo{
+	line-height: 15px !important;
+	}
+}
+
+@media screen and (min-width: 375px) and (max-width: 414px) {
+	.mobile {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequenoSimples {
+		width: 70% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequeno {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoParecer {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaMedia {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaTamanhoMedio {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoSemAltura {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaGrande {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoGrandeSemAltura {
+		width: 90% !important;
+		overflow: auto !important;
+	}
+	.telaCadastroMedio {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaGrandePadrao {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.espacametoResponsivo{
+	line-height: 15px !important;
+	}
+}
+
+@media screen and (min-width: 414px) and (max-width: 768px) {
+	.mobile {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequenoSimples {
+		width: 50% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequeno {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoParecer {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaMedia {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaTamanhoMedio {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoSemAltura {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaGrande {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoGrandeSemAltura {
+		width: 90% !important;
+		overflow: auto !important;
+	}
+	.telaCadastroMedio {
+		width: 95% !important;
+		overflow: auto !important;
+	}	
+	.telaGrandePadrao {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.espacametoResponsivo{
+	line-height: 10px !important;
+	}
+}
+
+@media screen and (min-width: 768px) and (max-width: 800px) {
+	.mobile {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequenoSimples {
+		width: 50% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequeno {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.dialogoParecer {
+		width: 85% !important;
+		overflow: auto !important;
+	}
+	.telaMedia {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaTamanhoMedio {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoSemAltura {
+		width: 85% !important;
+		overflow: auto !important;
+	}
+	.telaGrande {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoGrandeSemAltura {
+		width: 90% !important;
+		overflow: auto !important;
+	}
+	.telaCadastroMedio {
+		width: 90% !important;
+		overflow: auto !important;
+	}	
+	.telaGrandePadrao {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.espacametoResponsivo{
+	line-height: 5px !important;
+	}
+}
+
+@media screen and (min-width: 800px) and (max-width: 1024px) {
+	.mobile {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequenoSimples {
+		width: 45% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequeno {
+		width: 70% !important;
+		overflow: auto !important;
+	}
+	.dialogoParecer {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.telaMedia {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.telaTamanhoMedio {
+		width: 90% !important;
+		overflow: auto !important;
+	}
+	.dialogoSemAltura {
+		width: 85% !important;
+		overflow: auto !important;
+	}
+	.telaGrande {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoGrandeSemAltura {
+		width: 90% !important;
+		overflow: auto !important;
+	}
+	.telaCadastroMedio {
+		width: 80% !important;
+		overflow: auto !important;
+	}	
+	.telaGrandePadrao {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.espacametoResponsivo{
+	line-height: 5px !important;
+	}
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1280px) {
+	.mobile {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequenoSimples {
+		width: 40% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequeno {
+		width: 60% !important;
+		overflow: auto !important;
+	}
+	.dialogoParecer {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.telaMedia {
+		width: 90% !important;
+		overflow: auto !important;
+	}
+	.telaTamanhoMedio {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.dialogoSemAltura {
+		width: 70% !important;
+		overflow: auto !important;
+	}
+	.telaGrande {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoGrandeSemAltura {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.telaCadastroMedio {
+		width: 80% !important;
+		overflow: auto !important;
+	}		
+	.telaGrandePadrao {
+		width: 85% !important;
+		overflow: auto !important;
+	}
+	.espacametoResponsivo{
+	line-height: 0px !important;
+	}
+}
+
+.div-menuNovo {
+	width: 98% !important;
+	height: 65% !important;
+	overflow: auto !important;
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1366px) {
+	.mobile {
+		width: 90% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequenoSimples {
+		width: 40% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequeno {
+		width: 60% !important;
+		overflow: auto !important;
+	}
+	.dialogoParecer {
+		width: 85% !important;
+		overflow: auto !important;
+	}
+	.telaMedia {
+		width: 85% !important;
+		overflow: auto !important;
+	}
+	.telaTamanhoMedio {
+		width: 80% !important;
+	}
+	.dialogoSemAltura {
+		width: 60% !important;
+		overflow: auto !important;
+	}
+	.telaGrande {
+		width: 95% !important;
+		overflow: auto !important;
+	}
+	.dialogoGrandeSemAltura {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.telaCadastroMedio {
+		width: 80% !important;
+		overflow: auto !important;
+	}	
+	.telaGrandePadrao {
+		width: 75% !important;
+		overflow: auto !important;
+	}
+	.espacametoResponsivo{
+	line-height: 0px !important;
+	}
+}
+
+/* RESOLUÇÃO ATUAL DO MEU NOTBOOK */
+@media screen and (min-width: 1366px) and (max-width: 1600px) {
+	.mobile {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequenoSimples {
+		width: 30% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequeno {
+		width: 40% !important;
+		overflow: auto !important;
+	}
+	.dialogoParecer {
+		width: 60% !important;
+		overflow: auto !important;
+	}
+	.telaMedia {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.telaTamanhoMedio {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.dialogoSemAltura {
+		width: 50% !important;
+		overflow: auto !important;
+	}
+	.telaGrande {
+		width: 90% !important;
+		overflow: auto !important;
+	}
+	.dialogoGrandeSemAltura {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.telaCadastroMedio {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.telaGrandePadrao {
+		width: 75% !important;
+		overflow: auto !important;
+	}
+	.espacametoResponsivo{
+	line-height: 0px !important;
+	}
+}
+
+@media screen and (min-width: 1596px) and (max-width: 1900px) {
+	.mobile {
+		width: 70% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequenoSimples {
+		width: 30% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequeno {
+		width: 40% !important;
+		overflow: auto !important;
+	}
+	.dialogoParecer {
+		width: 60% !important;
+		overflow: auto !important;
+	}
+	.telaMedia {
+		width: 70% !important;
+		overflow: auto !important;
+	}
+	.dialogoSemAltura {
+		width: 60% !important;
+		overflow: auto !important;
+	}
+	.telaGrande {
+		width: 80% !important;
+		overflow: auto !important;
+	}
+	.dialogoGrandeSemAltura {
+		width: 60% !important;
+		overflow: auto !important;
+	}
+	.telaCadastroMedio {
+		width: 50% !important;
+		overflow: auto !important;
+	}
+	.telaGrandePadrao {
+		width: 65% !important;
+		overflow: auto !important;
+	}
+	.espacametoResponsivo{
+	line-height: 0px !important;
+	}
+}
+
+@media screen and (min-width: 1900px) and (max-width: 2000px) {
+	.mobile {
+		width: 70% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequenoSimples {
+		width: 30% !important;
+		overflow: auto !important;
+	}
+	.DialogoPequeno {
+		width: 40% !important;
+		overflow: auto !important;
+	}
+	.dialogoParecer {
+		width: 60% !important;
+		overflow: auto !important;
+	}
+	.telaMedia {
+		width: 65% !important;
+		overflow: auto !important;
+	}
+	.dialogoSemAltura {
+		width: 50% !important;
+		overflow: auto !important;
+	}
+	.telaGrande {
+		width: 75% !important;
+		overflow: auto !important;
+	}
+	.dialogoGrandeSemAltura {
+		width: 60% !important;
+		overflow: auto !important;
+	}
+	.telaCadastroMedio {
+		width: 50% !important;
+		overflow: auto !important;
+	}
+	.telaGrande {
+		width: 75% !important;
+		overflow: auto !important;
+	}
+	.telaGrandePadrao {
+		width: 75% !important;
+		overflow: auto !important;
+	}
+	.espacametoResponsivo{
+	line-height: 5px !important;
+	}
+}
+
+body .ui-widget-header {
+	color: #FFFFFF !important;
+	font-size: 12px;
+}
+
+body .ui-tabs .ui-tabs-nav>li.ui-state-active a {
+	color: #ffffff !important;
+}
+
+body .ui-tabs .ui-tabs-nav>li.ui-state-default a {
+	color: #FFFFFF !important;
+}
+
+
+body .ui-tabs .ui-tabs-nav>li.ui-state-active {
+	background-color: #ffffff;
+	border-color: #28a745 !important;
+	border-style: solid;
+}
+
+body .ui-tabs .ui-tabs-nav>li.ui-state-active {
+	background-color: #ffffff;
+	border-color: rgb(121, 193, 78) !important;
+	border-style: solid;
+}
+
+.ui-widget-header {
+	color: #000000;
+/*  text-shadow: 0 -1px 2px #000000 !important; */
+	font-weight: bold;
+}
+
+body .ui-widget-content {
+	background-color: #f3f3f3;
+	font-size: 11.5px !important;
+	border: 1px solid #bdbdbd;
+}
+
+body .ui-inputfield {
+	background: transparent;
+	border-width: 1px 1px 1px 1px;
+	padding: 3px 3px 3px 3px;
+	font-size: 11px;
+	border-color: #bdbdbd;
+	border-style: solid;
+	-moz-transition: border-color 0.3s;
+	-o-transition: border-color 0.3s;
+	-webkit-transition: border-color 0.3s;
+	transition: border-color 0.3s;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+}
+
+.fundoTabela1 .ui-datatable .ui-datatable-data .ui-datatable-odd td {
+	background-color: #98CC74 !important;
+}
+
+.fundoTabela2 .ui-datatable .ui-datatable-data .ui-datatable-even td {
+	background-color: #98CC74 !important;
+}
+
+.fundoNormal1 .ui-datatable .ui-datatable-data .ui-datatable-even td {
+	background-color: #ffffff !important;
+}
+
+.fundoNormal2 .ui-datatable .ui-datatable-data .ui-datatable-odd td {
+	background-color: #ffffff !important;
+}
+
+
+/* FUNDO PARA SOBRAR O RATEIO*/
+
+/* FUNDO MAIS CLARO DA LISTA DA TABELA DE DADOS*/
+
+.linhaSelecionadaVerde .ui-datatable tbody tr.ui-state-hover {
+    background-color: #98CC74 !important;
+    color: #000000; }
+
+.fundoNormalClaro2 .ui-datatable .ui-datatable-data .ui-datatable-odd td {
+	background-color: transparent !important;
+}
+
+
+body.layout-compact {
+	font-size: 11px;
+	line-height: 13px;
+}
+
+body .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon .ui-icon {
+	color: #FFFFFF !important;
+}
+
+.saidanegrito {
+	font-weight: bold !important;
+}
+
+.fonteBranca {
+	color: #FFFFFF !important;
+	font-size: 10px !important;
+}
+
+.objetoChamaAtencao {
+	font-weight: bold !important;
+	color: red !important;
+	text-align: center;
+}
+
+
+body .ui-panelmenu .ui-panelmenu-header {
+	background-color: #30383c !important;
+	margin-bottom: 1px;
+}
+
+body .ui-panelgrid .ui-panelgrid-cell {
+	padding: 3px 5px !important;
+}
+
+body .ui-datepicker thead tr {
+	color: #000000 !important;
+	background: rgb(121, 193, 78) !important;
+}
+
+body .ui-growl .ui-growl-item .ui-growl-image {
+    /* background: none; */
+    color: #30383c !important;
+    padding: 4px;
+}
+
+/* tamanho do texto de todos output */
+body.layout-compact .ui-widget-content {
+	font-size: 11px !important;
+}
+
+
+/* tamanho do texto de todos input */
+body.layout-compact .ui-inputfield {
+    font-size: 10.5px !important;
+}
+
+
+/* cor msg de erro */
+body .ui-growl .ui-growl-item .ui-growl-message {
+    color: #000000;
+}
+
+/* cor img de erro */
+body .ui-growl .ui-growl-item .ui-growl-image {
+    /* background: none; */
+    color: #000000;
+    padding: 4px;
+}
+
+.corrigeMenu{
+	z-index:9999 !important;
+}
+
+.corrigeMenu .layout-main .content{
+	overflow:visible !important;
+}
+
+.fonteVermelha {
+	font-weight: bold !important;
+	color: red !important;
+}
+
+.fonteVerde {
+	font-weight: bold !important;
+	color: green !important;
+}
+
+.fonteAzul {
+	font-weight: bold !important;
+	color: blue !important;
+}
+
+.fonteLaranja {
+	font-weight: bold !important;
+	color: orange !important;
+}
+.borda {
+	border-width: 1px;
+	border-style: solid;
+	border-color: inherit;
+}
+
+.bordaFina {
+    border-width: 0.1px;
+    border-style: inset;
+    border-color: antiquewhite;
+}
+
+::ng-deep p-dialog .ui-dialog {
+    overflow: scroll;
+    max-height: 100%;
+}
+
+.ui-menu.ui-menu-dynamic {
+    position: absolute;
+    display: none;
+    z-index: 100000;
+}
+
+.ui-menu.ui-widget li > .ui-menuitem-link {
+    padding: 3px !important;
+}
+
+.colunaDireita{
+	text-align: left;
+}
+.colunaEsquerda{
+	text-align: right;	
+}
+
+/* AUMENTO NA LARGURA DA GRID DO p:menuButton 
+.ui-icon.ui-ribbonicon-new {
+	height: 32px !important;
+	left: 30% !important;
+	margin-top: -32px !important;
+	width: 32px !important;
+	background-image: url(../resources/images/icone/potm.png);
+	font-size: 9px !important;
+}
+
+body .ui-button {
+   overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	background-color: #ffffff !important;
+	color: #000000 !important;
+	font-size: 11px;
+	height: 36px;
+	padding: 12px 2px 2px 2px !important;
+	padding-left: 16px;
+	border: 0 none;
+	-moz-transition: background-color 0.3s;
+	-o-transition: background-color 0.3s;
+	-webkit-transition: background-color 0.3s;
+	transition: background-color red !important;
+}
+*/
+
+.ui-growl-title {
+    font-weight: bold;
+    padding: 0 0 7px 0;
+    display: block;
+    font-size: 10px;
+    line-height: 15px;
+    margin-top: 10px;
+    margin-left: -5px
+}
+
+/* GRID DO FILUPLOAD */
+body.layout-compact .ui-fileupload .ui-fileupload-buttonbar {
+    padding: 5px 5px !important;
+}
+
+.tituloGRI {
+	text-align: center !important;
+	font-family: Tubular GD !important; 
+	letter-spacing:1px !important; 
+	line-height:2 !important; 
+	padding: 20px 5 !important; 
+	font-size: 15px !important; 
+}
+
+.linhaCinza{
+	background: #d3d7cf !important;
+}
+
+.ui-dialog.ui-widget-content {
+    max-height: 95% ;
+}
+
+.ui-datatable .ui-datatable-data .ui-datatable-odd td {
+	background-color: #d0e9e9;
+}
+
+.ui-datatable .ui-datatable-data .ui-datatable-even td {
+	background-color: #FFFFFF;
+}
+
+.navbar-collapse {
+    overflow-x: visible;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-top: 0px !important;
+    border-top: 1px solid transparent;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    -webkit-overflow-scrolling: touch;
+}
+
+.navbar {
+    min-height: 10px !important;
+    margin-bottom: 20px;
+}
+
+.navbar-nav > li > a {
+    padding-top: 5px !important; 
+    padding-bottom: 7px !important;
+    margin-bottom: 1px !important;
+    margin-top: 1px !important;
+    font-size: 12px !important;
+}
+
+.navbar {
+    position: relative;
+    min-height: 10px;
+    margin-bottom: 10px !important;
+    border: 1px solid transparent;
+        border-top-color: transparent;
+        border-right-color: transparent;
+        border-bottom-color: transparent;
+        border-left-color: transparent;
+}
+
+.ui-widget-header {
+    background: #30383c !important;
+}
+
+.dropdown-menu {
+    font-size: 12px !important;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-image: linear-gradient(to bottom, #f5f5f5 0%, #d0e9e9 100%) !important;
+}
+
+.ui-dialog.ui-widget-content {
+    max-height: 95% ;
+}
+
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+    padding: 0px !important;
+    width: 25px !important;
+    margin-right: 0px !important;
+}
+
+.ui-selectonemenu .ui-selectonemenu-label {
+    overflow: initial !important;
+    height: 20px;
+}
+
+.ui-panel .ui-panel-titlebar {
+    padding: .2em .2em !important;
+}
+
+.ui-dialog.ui-widget-content .ui-dialog-title {
+    font-size: 18px !important;
+}
+
+.ui-dialog.ui-widget-content .ui-dialog-titlebar {
+  	padding: 2px 2px 2px 5px !important;
+}
+
+.ui-dialog.ui-widget-content .ui-dialog-titlebar-close {
+   	margin-top: 7px !important;
+    margin-right: 5px !important;
+    background: white;
+}
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    color: #bf3f3f;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.01);
+}    
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	color: #000000;
+    text-shadow: 0 1px 1px rgba(107, 107, 107, 0) !important;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+	background-image: linear-gradient(to bottom, rgb(121, 193, 78), rgb(121, 193, 78)) !important;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    background-color:  rgb(121, 193, 78) !important;
+}   
+
+
+
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {
+    border: 1px solid red !important;
+    background: #FFF !important;
+    color: #000000 !important;
+}
+
+.grupoCadastroRapido {
+    display: -webkit-box  !important;
+    display: -moz-box  !important;
+    display: -ms-flexbox !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+    height: 22px;
+}         
+
+.ui-inputgroup .ui-inputgroup-addon {
+    padding: 4px !important;
+}
+.ui-inputgroup .ui-inputgroup-addon, .ui-inputgroup .ui-inputgroup-addon-checkbox {
+    display: inline-block !important;
+    text-align: center !important;
+    min-width: 1.5em !important;
+    border: 0 none !important;
+}
+.ui-inputgroup .ui-inputtext {
+    padding-left: .5em !important;
+}
+
+body .ui-inputgroup .ui-inputgroup-addon .material-icons {
+    top: -6px  !important;
+    position: relative  !important;
+}
+
+.ignoraResponsividade{
+	width: auto !important;
+}
+
+.botaoCadastroRapido {
+	margin-left: 3px;
+	width: 30px !important;
+	height: 26px;
+	font-size: 15px !important;
+}
+
+.ui-datepicker .ui-datepicker-title select {
+    color: black !important;
+}
+
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
+    background: #e2e2e2 !important;
+}
+
+button.ui-button-text-icon-left .ui-button-text, .ui-button-text-icon-right .ui-button-text {
+    padding: .2em 0.5em .2em 1.5em !important;
+    font-size: 14px !important;
+}
+.ui-icon {
+    overflow: initial !important;
+}
+
+.ui-button-icon-only .ui-icon, .ui-button-text-icon-left .ui-icon, .ui-button-text-icon-right .ui-icon {
+    margin-top: -8px !important;
+    font-size: 22px !important;
+    margin-top: -5px !important;
+    margin-left: -4px !important;
+    top: 20% !important;
+}
+
+div.ui-panel .ui-panel-title {
+    color: #ffffff !important;
+}
+
+.ui-button-icon-only .ui-icon {
+    left: 35% !important;
+}
+
+div.ui-selectonemenu, div.ui-fluid div.ui-selectonemenu {
+    height: 26px !important;
+}  
+
+div.ui-growl {
+    left: auto !important;
+}    
+
+.ui-dialog.ui-widget-content .ui-dialog-titlebar-close {
+    margin-top: 15px !important;
+    margin-right: 5px !important;
+    background: transparent !important;
+}
+
+body .ui-dialog.ui-widget-content .ui-dialog-titlebar, body .ui-dialog .ui-dialog-titlebar {
+    background: #3c8dbc !important;
+}
+
+body .ui-dialog.ui-widget-content .ui-dialog-titlebar .ui-dialog-title, body .ui-dialog .ui-dialog-titlebar .ui-dialog-title {
+    font-weight: bold !important;
+    color: #fff !important;
+    margin: .2em 20px .2em 0 !important;
+}
+
+.ui-datatable table {
+    background-color: #dcdcdc !important;
+}    
+
+.ui-fluid .ui-inputfield {
+    background: #FFFFFF !important;
+}
+
+.valoresCabecalhoDashBoard {
+	font-weight: lighter !important;
+	font-size: 16px !important;
+}
+
+.valoresCorpoDashBoard {
+	font-weight: bold !important;
+	font-size: 24px !important;
+}
+body .ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li.ui-state-active {
+    background: #28a745 !important;
+}
+
+body .ui-tabs .ui-tabs-nav>li.ui-state-default {
+    background: #3c8dbc !important;
+}
+

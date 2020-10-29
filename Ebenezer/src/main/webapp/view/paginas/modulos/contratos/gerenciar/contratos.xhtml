@@ -1,0 +1,424 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">
+		<h:form id="frmMVD" enctype="multipart/form-data">
+			<p:panel header="CONTRATOS > GERENCIAR">
+				<div class="row ignoraResponsividade" >
+					<div class="col-lg-6 col-xs-6">
+						<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgContrato').show(); PF('dlgContrato').initPosition();" 
+						actionListener="#{contratoController.novoContrato}" update=":msgGlobal FormCadContrato" styleClass="btn-primary" />
+					</div>
+					
+					<p:panelGrid columns="5" styleClass="ui-panelgrid-blank" style="text-align: rigth !important;">
+						<p:outputLabel value="Pesquisar Contratos: " styleClass="saidanegrito" />
+						<p:selectOneMenu value="#{contratoController.pesquisaStatus}">
+							<f:selectItem itemValue="RASCUNHO" itemLabel="RASCUNHO" />
+							<f:selectItem itemValue="EM VINGÊNCIA" itemLabel="EM VINGÊNCIA"  />
+							<f:selectItem itemValue="CONCLUÍDO" itemLabel="CONCLUÍDO" />
+							<f:selectItem itemValue="CANCELADO" itemLabel="CANCELADO" />
+						</p:selectOneMenu>
+						
+						<p:commandButton value="Pesquisar" icon="fa fa-search" actionListener="#{contratoController.pesquisar}" 
+						update="frmMVD" styleClass="btn-success" />
+					</p:panelGrid>
+				</div>
+			
+			
+				<p:toolbar style="background: #FFFFFF !important; color: #000000 !important; font-size: 12px !important;" styleClass="ignoraResponsividade">
+					<f:facet name="left">
+						<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgContrato').show(); PF('dlgContrato').initPosition();" 
+						actionListener="#{contratoController.novoContrato}" update=":msgGlobal FormCadContrato" styleClass="btn-primary" />
+					</f:facet>
+					
+					<f:facet name="right">
+						<p:outputLabel value="Pesquisar Contratos: " styleClass="saidanegrito" />
+						<span class="ui-separator" />
+						<p:selectOneMenu value="#{contratoController.pesquisaStatus}">
+							<f:selectItem itemValue="RASCUNHO" itemLabel="RASCUNHO" />
+							<f:selectItem itemValue="EM VINGÊNCIA" itemLabel="EM VINGÊNCIA"  />
+							<f:selectItem itemValue="CONCLUÍDO" itemLabel="CONCLUÍDO" />
+							<f:selectItem itemValue="CANCELADO" itemLabel="CANCELADO" />
+						</p:selectOneMenu>
+						
+						<span class="ui-separator" />
+						
+						<p:commandButton value="Pesquisar" icon="fa fa-search" actionListener="#{contratoController.pesquisar}" 
+						update="frmMVD" styleClass="btn-success" />
+					</f:facet>
+
+				</p:toolbar>
+				<p></p>
+
+				<p:dataTable id="tabela" emptyMessage="Nenhum contrato encontrado" paginator="true" rows="10" reflow="true" 
+				paginatorPosition="bottom" value="#{contratoController.listaContrato}" 
+				filteredValue="#{contratoController.listaContratoFiltrado}" var="contrato" style="text-align: center;">
+				
+					<p:column headerText="Número" width="5%" filterBy="#{contrato.id}" sortBy="#{contrato.id}" styleClass="ui-fluid">
+						<h:outputText value="#{contrato.id}" />
+					</p:column>
+
+					<p:column headerText="Locador" width="25%" filterBy="#{contrato.locador.pessoa.nomeReceita}" 
+					sortBy="#{contrato.locador.pessoa.nomeReceita}" styleClass="ui-fluid">
+						<h:outputText value="#{contrato.locador.pessoa.nomeReceita}" />
+					</p:column>
+
+					<p:column headerText="Locatário" width="25%" filterBy="#{contrato.locatario.pessoa.nomeReceita}" 
+					sortBy="#{contrato.locatario.pessoa.nomeReceita}" styleClass="ui-fluid">
+						<h:outputText value="#{contrato.locatario.pessoa.nomeReceita}" />
+					</p:column>
+					
+					<p:column headerText="Data Inicio" width="10%" sortBy="#{contrato.dataInicio}">
+						<h:outputText value="#{contrato.dataInicio}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Porto_Velho" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Data Fim" width="10%" sortBy="#{contrato.dataFim}">
+						<h:outputText value="#{contrato.dataFim}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Porto_Velho" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Situacão" width="10%" filterBy="#{contrato.locatario}" styleClass="ui-fluid">
+						<h:outputText value="#{contrato.situacao}" rendered="#{contrato.situacao == 'RASCUNHO'}" 
+						styleClass="badge badge-info" />
+						<h:outputText value="#{contrato.situacao}" rendered="#{contrato.situacao == 'EM VINGÊNCIA'}" 
+						styleClass="badge badge-primary" />
+						<h:outputText value="#{contrato.situacao}" rendered="#{contrato.situacao == 'CANCELADO'}" 
+						styleClass="badge badge-danger" />
+						<h:outputText value="#{contrato.situacao}" rendered="#{contrato.situacao == 'CONCLUÍDO'}" 
+						styleClass="badge badge-success" />
+					</p:column>
+
+					<p:column headerText="Opções" width="5%">
+						<p:commandButton icon="ui-icon-pencil"	actionListener="#{contratoController.editarContrato}" 
+						update=":FormCadContrato" oncomplete="PF('dlgContrato').show(); PF('dlgContrato').initPosition();" 
+						styleClass="btn-warning">
+							<f:attribute name="contratoSelecionado" value="#{contrato}" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+		<p:dialog header="Cadastro de Contratos" widgetVar="dlgContrato" draggable="true" resizable="false" modal="true" closable="true" 
+		appendTo="@(body)" styleClass="telaGrandePadrao" responsive="true" focus="FormCadContrato:valorTotal">
+			<h:form id="FormCadContrato">
+				<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-4" styleClass="ui-fluid ui-panelgrid-blank">
+				
+					<h:panelGroup id="selectLocador">
+						<p:outputLabel value="Locador: " styleClass="saidanegrito"/>
+						<div class="grupoCadastroRapido">
+							<p:selectOneMenu filter="true" value="#{contratoController.contrato.locador}" 
+							converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="O Campo Locador é Obrigatório!" 
+							disabled="#{contratoController.habilitaEdicao}">
+								<f:selectItem noSelectionOption="true" itemLabel="Selecione um Locador " />
+								<f:selectItems value="#{contratoController.listaLocador}" var="locador" itemValue="#{locador}" 
+								itemLabel="#{locador.pessoa.nomeReceita}" />
+								<p:ajax event="change" listener="#{contratoController.pesquisaImovelPorLocador}" 
+								update="FormCadContrato:tabView" />
+							</p:selectOneMenu>
+							<p:commandButton id="idLocador" icon="fa fa-plus" oncomplete="PF('dlgContrato').show();"
+								actionListener="#{contratoController.novoContrato}" update=":msgGlobal FormCadContrato" 
+								immediate="true" styleClass="btn-primary botaoCadastroRapido" />
+							<p:tooltip for="idLocador" value="Novo Locador" position="top" />
+						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup id="selectLocatario">
+						<p:outputLabel value="Locatário: " styleClass="saidanegrito"/>
+						<div class="grupoCadastroRapido">
+							<p:selectOneMenu filter="true" value="#{contratoController.contrato.locatario}" 
+							converter="omnifaces.SelectItemsConverter" required="true" 
+							requiredMessage="O Campo Locatário é Obrigatório!" disabled="#{contratoController.habilitaEdicao}">
+								<f:selectItem noSelectionOption="true" itemLabel="Selecione um Locatário " />
+								<f:selectItems value="#{contratoController.listaLocatario}" var="locatario" itemValue="#{locatario}" 
+								itemLabel="#{locatario.pessoa.nomeReceita}" />
+							</p:selectOneMenu>
+							<p:commandButton id="idLocatario" icon="fa fa-plus" oncomplete="PF('dlgContrato').show();"
+								actionListener="#{contratoController.novoContrato}" update=":msgGlobal FormCadContrato" 
+								immediate="true" styleClass="btn-primary botaoCadastroRapido" />
+							<p:tooltip for="idLocatario" value="Novo Locatário" position="top" />
+						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup id="selectFiador">
+						<p:outputLabel value="Fiador: " styleClass="saidanegrito"/>
+						<div class="grupoCadastroRapido">
+							<p:selectOneMenu filter="true" value="#{contratoController.contrato.fiador}" 
+							converter="omnifaces.SelectItemsConverter"  disabled="#{contratoController.habilitaEdicao}">
+								<f:selectItem noSelectionOption="true" itemLabel="Selecione um Fiador " />
+								<f:selectItems value="#{contratoController.listaFiador}" var="fiador" itemValue="#{fiador}" 
+								itemLabel="#{fiador.pessoa.nomeReceita}" />
+							</p:selectOneMenu>
+							<p:commandButton id="idFiador" icon="fa fa-plus" oncomplete="PF('dlgContrato').show();"
+								actionListener="#{contratoController.novoContrato}" update=":msgGlobal FormCadContrato" 
+								immediate="true" styleClass="btn-primary botaoCadastroRapido" />
+							<p:tooltip for="idFiador" value="Novo Fiador" position="top" />
+						</div>
+					</h:panelGroup>
+					
+				</p:panelGrid>
+				<p:panelGrid columns="6" layout="grid" columnClasses="ui-grid-col-2" styleClass="ui-fluid ui-panelgrid-blank">
+				
+					<h:panelGroup>
+						<p:outputLabel value="Data de Inicio: " styleClass="saidanegrito" />
+						<p:calendar locale="de" navigator="true" pattern="dd/MM/yyyy" value="#{contratoController.contrato.dataInicio}" 
+						required="true" requiredMessage="O Campo Data de Inicio é Obirgatório!" disabled="#{contratoController.habilitaEdicao}">
+							<p:ajax event="dateSelect" listener="#{contratoController.geraParcela}" update="FormCadContrato" 
+							oncomplete="PF('dlgContrato').initPosition();" global="false"/>
+						</p:calendar>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<p:outputLabel value="Data de Fim: " styleClass="saidanegrito" />
+						<p:calendar locale="de" navigator="true" pattern="dd/MM/yyyy" value="#{contratoController.contrato.dataFim}" 
+						required="true" requiredMessage="O Campo Data de Fim é Obirgatório!" disabled="true" styleClass="saidanegrito">
+						</p:calendar>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<p:outputLabel value="Data de Vencimento: " styleClass="saidanegrito" />
+						<p:calendar locale="de" navigator="true" pattern="dd/MM/yyyy" 
+						value="#{contratoController.contrato.dataVencimento}" required="true" 
+						requiredMessage="O Campo Data de Vencimento é Obirgatório!" disabled="#{contratoController.habilitaEdicao}">
+							<p:ajax event="dateSelect" listener="#{contratoController.geraParcela}" update="FormCadContrato" 
+							oncomplete="PF('dlgContrato').initPosition();" global="false"/>
+						</p:calendar>	
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<p:outputLabel  value="Valor do Aluguel: " styleClass="saidanegrito"/>
+						<p:inputText value="#{contratoController.contrato.valorParcela}" onkeypress="mascara(this, valor);" 
+						required="true" requiredMessage="O Campo Valor do Aluguel é Obrigatório!" 
+						readonly="#{contratoController.habilitaEdicao}">
+	    					<f:convertNumber groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" />
+							<p:ajax event="blur" listener="#{contratoController.geraParcela}" update="FormCadContrato" 
+							oncomplete="PF('dlgContrato').initPosition();" global="false"/>
+						</p:inputText>	
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<p:outputLabel value="Prazo de Locação: " styleClass="saidanegrito" />
+						<p:spinner maxlength="5" value="#{contratoController.contrato.quantidadeParcela}" required="true" 
+						requiredMessage="O Campo Prazo de Locação é Obrigatório!" readonly="#{contratoController.habilitaEdicao}">
+							<p:ajax  listener="#{contratoController.geraParcela}" update="FormCadContrato" 
+							oncomplete="PF('dlgContrato').initPosition();" global="false"/>
+						</p:spinner>	
+					</h:panelGroup>
+					
+					<h:panelGroup >
+						<p:outputLabel  value="% Desconto: " styleClass="saidanegrito"/>
+						<div class="grupoCadastroRapido">
+							<p:inputText value="#{contratoController.contrato.porcentagemDesconto}" maxlength="6" 
+							onkeypress="mascara(this, valor);" required="true" requiredMessage="O Campo % Desconto é Obrigatório!" 
+							readonly="#{contratoController.habilitaEdicao}">
+	    					<f:convertNumber groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" />
+						</p:inputText>
+							<p:commandButton id="idGerarParcela" icon="fa fa-refresh" oncomplete="PF('dlgContrato').initPosition();"
+								actionListener="#{contratoController.geraParcela}" update=":msgGlobal FormCadContrato" process="@form" 
+								immediate="true" styleClass="btn-warning botaoCadastroRapido" 
+								rendered="#{contratoController.habilitaEdicao == false}"/>
+							<p:tooltip for="idGerarParcela" value="Gerar Parcelas" position="top" />
+						</div>
+					</h:panelGroup>
+				
+				</p:panelGrid>
+				<p:tabView id="tabView"  onTabShow="PF('dlgContrato').initPosition();" dynamic="true">
+        			<p:tab id="tab1" title="Parcelas">
+						<p:panelGrid id="pnlParcela" columns="1" layout="grid" columnClasses="ui-grid-col-12" 
+						styleClass="ui-panelgrid-blank">
+						
+							<p:dataTable reflow="true" value="#{contratoController.listaParcela}" var="parcela" 
+							style="text-align: center;">
+		
+								<p:column headerText="Número" width="10%">
+									<h:outputText value="#{parcela.numero}" />
+								</p:column>
+			
+								<p:column headerText="Valor a Parcela" width="20%" >
+									<h:outputText value="#{parcela.valorParcela}" >
+										<f:convertNumber currencySymbol="R$ " type="currency" />
+									</h:outputText>	
+								</p:column>
+								
+								<p:column headerText="Valor Pago" width="20%" >
+									<h:outputText value="#{parcela.valorPago}" >
+										<f:convertNumber currencySymbol="R$ " type="currency" />
+									</h:outputText>	
+								</p:column>
+			
+								<p:column headerText="Data de Vencimento" width="15%">
+									<h:outputText value="#{parcela.dataVencimento}">
+										<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Porto_Velho" />
+									</h:outputText>
+								</p:column>
+								
+								<p:column headerText="Data de Pagamento" width="15%">
+									<h:outputText value="#{parcela.dataPagamento}">
+										<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Porto_Velho" />
+									</h:outputText>
+								</p:column>
+								
+								<p:column headerText="Status" width="13%">
+									<h:outputText value="#{parcela.situacao.descricao}" rendered="#{parcela.situacao.descricao == 'ABERTO'}" 
+									styleClass="badge badge-warning" />
+									<h:outputText value="#{parcela.situacao.descricao}" rendered="#{parcela.situacao.descricao == 'PAGO'}" 
+									styleClass="badge badge-success" />
+									<h:outputText value="#{parcela.situacao.descricao}" rendered="#{parcela.situacao.descricao == 'CANCELADO'}" 
+									styleClass="badge badge-danger" />
+								</p:column>
+								
+								<p:column headerText="Opções" width="7%">
+									<p:commandButton id="idLiquidar" icon="fa fa-check"	actionListener="#{contratoController.liquidaParcela}" 
+									update="FormParcela" oncomplete="PF('dlgParcela').show();" styleClass="btn-success" 
+									rendered="#{contratoController.contrato.situacao == 'EM VINGÊNCIA' and 
+									parcela.situacao.descricao == 'ABERTO'}">
+										<f:attribute name="parcelaSelecionada" value="#{parcela}" />
+									</p:commandButton>
+									<p:tooltip for="idLiquidar" value="Liquidar Parcela Número #{parcela.numero}" position="top" />
+								</p:column>
+							
+							</p:dataTable>
+							
+						</p:panelGrid>
+					
+					</p:tab>
+					<p:tab id="tab2" title="Informações Complementares">
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-9,ui-grid-col-3" 
+						styleClass="ui-fluid ui-panelgrid-blank">
+						
+							<h:panelGroup id="selectImovel">
+								<p:outputLabel value="Imóveis: " styleClass="saidanegrito"/>
+								<div class="grupoCadastroRapido">
+									<p:selectOneMenu filter="true" value="#{contratoController.contrato.imovel}" 
+									converter="omnifaces.SelectItemsConverter" required="true" 
+									requiredMessage="O Campo Imóveis é Obrigatório!" disabled="#{contratoController.habilitaEdicao}">
+										<f:selectItem noSelectionOption="true" itemLabel="Selecione um Imóvel " />
+										<f:selectItems value="#{contratoController.listaImovel}" var="imovel" itemValue="#{imovel}" 
+										itemLabel="#{imovel.descricao}" />
+									</p:selectOneMenu>
+									<p:commandButton id="idImovel" icon="fa fa-plus" oncomplete="PF('dlgImovel').show();"
+										actionListener="#{contratoController.novoImovel}" update=":msgGlobal FormCadImovel" 
+										immediate="true" styleClass="btn-primary botaoCadastroRapido" />
+									<p:tooltip for="idImovel" value="Novo Imóvel" position="top" />
+								</div>
+							</h:panelGroup>
+							
+							<h:panelGroup>
+								<p:outputLabel  value="Valor de Caução: " styleClass="saidanegrito"/>
+								<p:inputText value="#{contratoController.contrato.valorCaucao}" onkeypress="mascara(this, valor);" 
+								required="true" requiredMessage="O Campo Valor de Caução é Obrigatório!" 
+								readonly="#{contratoController.habilitaEdicao}">
+			    					<f:convertNumber groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" />
+								</p:inputText>	
+							</h:panelGroup>
+							
+						</p:panelGrid>
+					</p:tab>
+					
+					<p:tab id="tab3" title="Locatário Conjunto">
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-panelgrid-blank">
+						
+							<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgLocatarioConjunte').show();" 
+							actionListener="#{contratoController.novoLocatarioConjunto}" update=":msgGlobal FormCadLocatarioConjunte" 
+							disabled="#{contratoController.habilitaEdicao}" styleClass="btn-primary" />
+						
+							<p:dataTable reflow="true" value="#{contratoController.listaLocatarioConjunto}" var="locatarioConjunto" 
+							style="text-align: center;" emptyMessage="nenhum locatário conjunto encontrado">
+		
+								<p:column headerText="Nome" width="70%">
+									<h:outputText value="#{locatarioConjunto.pessoa.nomeReceita}" />
+								</p:column>
+								
+								<p:column headerText="CPF/CNPJ" width="20%">
+									<h:outputText value="#{locatarioConjunto.pessoa.cpfCnpj}" />
+								</p:column>
+								
+								<p:column headerText="Opções" width="10%">
+									<p:commandButton icon="fa fa-remove" actionListener="#{contratoController.excluirLocatarioConjunto}" update="FormCadContrato" 
+									disabled="#{contratoController.habilitaEdicao}" styleClass="btn-danger" immediate="true" title="Remover">
+										<p:confirm header="Confirmation" message="Deseja Remover #{locatarioConjunto.pessoa.nomeReceita} ?" icon="fa fa-warning" />
+										<f:attribute name="locatarioConjuntoSelecionado" value="#{locatarioConjunto}" />
+									</p:commandButton>
+								</p:column>
+							
+							</p:dataTable>
+							
+						</p:panelGrid>
+					</p:tab>
+				</p:tabView>		
+						
+				<p:panelGrid columns="6" layout="grid" columnClasses="ui-grid-col-2" styleClass="ui-fluid ui-panelgrid-blank">	
+				
+					<h:panelGroup>
+						<p:outputLabel value="Situação do Contrato: " styleClass="saidanegrito" />
+						<p:selectOneMenu value="#{contratoController.contrato.situacao}" 
+						rendered="#{contratoController.contrato.situacao == 'RASCUNHO'}">
+							<f:selectItem itemValue="RASCUNHO" itemLabel="RASCUNHO" />
+							<f:selectItem itemValue="EM VINGÊNCIA" itemLabel="EM VINGÊNCIA"  />
+						</p:selectOneMenu>
+						
+						<p:selectOneMenu value="#{contratoController.contrato.situacao}" 
+						rendered="#{contratoController.contrato.situacao != 'RASCUNHO'}" 
+						disabled="#{contratoController.contrato.situacao == 'CONCLUÍDO' || contratoController.contrato.situacao == 'CANCELADO'}">
+							<f:selectItem itemValue="EM VINGÊNCIA" itemLabel="EM VINGÊNCIA"  />
+							<f:selectItem itemValue="CONCLUÍDO" itemLabel="CONCLUÍDO" />
+							<f:selectItem itemValue="CANCELADO" itemLabel="CANCELADO" />
+						</p:selectOneMenu>
+					</h:panelGroup>
+				
+					<p:outputLabel />
+					<p:outputLabel />
+					
+					<h:panelGroup>
+						<p:outputLabel  value="Valor Total Pago: " styleClass="saidanegrito"/>
+						<p:inputText value="#{contratoController.contrato.valorTotalPago}" onkeypress="mascara(this, valor);" 
+						readonly="true" styleClass="fonteVerde">
+	    					<f:convertNumber groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" />
+						</p:inputText>	
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<p:outputLabel  value="Valor à Receber: " styleClass="saidanegrito"/>
+						<p:inputText value="#{contratoController.contrato.valorTotalAReceber}" onkeypress="mascara(this, valor);" 
+						readonly="true" styleClass="fonteVermelha">
+	    					<f:convertNumber groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" />
+						</p:inputText>	
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<p:outputLabel  value="Valor Total Contrato: " styleClass="saidanegrito"/>
+						<p:inputText id="valorTotal" value="#{contratoController.contrato.valorTotalContrato}" 
+						onkeypress="mascara(this, valor);" readonly="true" styleClass="fonteAzul">
+	    					<f:convertNumber groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" />
+						</p:inputText>	
+					</h:panelGroup>
+					
+				</p:panelGrid>
+				
+				<p></p>
+				<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+					<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{contratoController.salvarContrato}"	
+					update=":msgGlobal :frmMVD :FormCadContrato" styleClass="btn-success" 
+					rendered="#{contratoController.contrato.situacao == 'RASCUNHO' || 
+					contratoController.contrato.situacao == 'EM VINGÊNCIA'}"/>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+		<ui:include src="./cadastroRapido.xhtml" />
+
+	</ui:define>
+</ui:composition>

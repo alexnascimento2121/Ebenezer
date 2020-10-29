@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ul class="sidebar-menu tree" data-widget="tree">
+        <li ><p:link href="/Ebenezer/Dashboard">
+				<i class="fa fa-home"></i>
+				<span>DASHBOARD</span>
+			</p:link>
+		</li>
+		
+        <li class="treeview"><a > 
+        	<i class="fa fa-plus">
+        </i>
+			<span>CADASTROS</span> 
+		</a>
+			<ul class="treeview-menu">
+				<li>
+					<p:link href="/Ebenezer/Cadastro/Cliente"><i class="fa fa-users"></i>
+						<span>CLIENTE</span>
+					</p:link>
+				</li>
+				<li>
+					<p:link href="/Ebenezer/Cadastro/Fiador"><i class="fa fa-user"></i>
+						<span>FIADOR</span>
+					</p:link>
+				</li>
+				<li>
+					<p:link href="/Ebenezer/Contrato/Imoveis"><i class="fa fa-home"></i>
+						<span>IMÓVEIS</span>
+					</p:link>
+				</li>
+				<li>
+					<p:link href="/Ebenezer/Cadastro/Locador"><i class="fa fa-user"></i>
+						<span>LOCADOR</span>
+					</p:link>
+				</li>
+				<li>
+					<p:link href="/Ebenezer/Cadastro/Locatario"><i class="fa fa-user"></i>
+						<span>LOCATÁRIO</span>
+					</p:link>
+				</li>
+			</ul>
+		</li>	
+		
+		<li class="treeview"><a href="#"> <i class="fa fa-gavel"></i>
+				<span>CONTRATOS</span> 
+		</a>
+			<ul class="treeview-menu">
+				<li>
+					<p:link href="/Ebenezer/Contrato/Gerenciar"><i class="fa fa-file-text-o"></i>
+						<span>GERENCIAR</span>
+						<span class="pull-right-container"> 
+							<small class="label pull-right bg-red">3</small> 
+							<small class="label pull-right bg-blue">17</small>
+						</span>
+					</p:link>
+				</li>
+			</ul>
+		</li>	
+		
+		<li class="treeview"><a href="#"> <i class="fa fa-file-text-o"></i>
+				<span>RECIBOS</span> 
+		</a>
+			<ul class="treeview-menu">
+				<li>
+					<p:link href="/Ebenezer/Recibo/Avulso"><i class="fa fa-dollar"></i>
+						<span>AVULSOS</span>
+					</p:link>
+				</li>
+			</ul>
+		</li>
+		
+		<li class="treeview"><a href="#"> <i class="fa fa-gears"></i>
+				<span>T.I.</span> 
+		</a>
+			<ul class="treeview-menu">
+				<li>
+					<p:link href="/Ebenezer/TI/UsuarioAdministrador"><i class="fa fa-street-view"></i>
+						<span>USUÁRIO ADMINISTRADOR</span>
+					</p:link>
+				</li>
+				<li>
+					<p:link href="/Ebenezer/TI/Instituicao"><i class="fa fa-user-plus"></i>
+						<span>INSTITUIÇÃO</span>
+					</p:link>
+				</li>
+				<li>
+					<p:link href="/Ebenezer/TI/Usuario"><i class="fa fa-key"></i>
+						<span>MEMBRO</span>
+					</p:link>
+				</li>
+			</ul>
+		</li>
+
+    </ul>
+
+</ui:composition>

@@ -1,0 +1,262 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">
+		<h:form id="frmMVD" enctype="multipart/form-data">
+			<p:panel header="Cadastro > Membro">
+				<p:toolbar style="background: #FFFFFF !important; color: #000000 !important; font-size: 12px !important;">
+					<f:facet name="left">
+						<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgMembro').show(); PF('dlgMembro').initPosition();" 
+						actionListener="#{membroController.novo}" update=":msgGlobal FormCadmembro" 
+						styleClass="btn-primary" onfocus="nomeReceita" />
+					</f:facet>
+
+				</p:toolbar>
+				<p></p>
+
+				<p:dataTable id="tabela" value="#{membroController.listaMembro}" 
+				 var="membro" style="text-align: center;" 
+				emptyMessage="Nenhum membro encontrado" reflow="true">
+
+					<p:column headerText="Código" width="10%">
+						<h:outputText value="#{membro.id}" />
+					</p:column>
+
+					<p:column headerText="Nome" width="30%" filterBy="#{membro.pessoa.nomeReceita}" styleClass="ui-fluid">
+						<h:outputText value="#{membro.pessoa.nomeReceita}" />
+					</p:column>
+					
+					<p:column headerText="CPF/CNPJ" width="15%" filterBy="#{membro.pessoa.cpfCnpj}" styleClass="ui-fluid">
+						<h:outputText value="#{membro.pessoa.cpfCnpj}" />
+					</p:column>
+					
+					<p:column headerText="Cadastro" width="15%" sortBy="#{membro.dataCadastro}">
+						<h:outputText value="#{membro.dataCadastro}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Opção" width="5%">
+						<p:commandButton icon="fa fa-pencil"	actionListener="#{membroController.editar}" update=":FormCadmembro" 
+						oncomplete="PF('dlgMembro').show(); PF('dlgMembro').initPosition();" styleClass="btn-warning" >
+							<f:attribute name="membroSelecionado" value="#{membro}" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+	<p:dialog header="Cadastro de membro(a)" widgetVar="dlgMembro" draggable="true" resizable="false" modal="true" closable="true" 
+	appendTo="@(body)" styleClass="telaTamanhoMedio" responsive="true" focus="FormCadmembro:nomeReceita">
+		<h:form id="FormCadmembro">
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-9" styleClass="ui-fluid ui-panelgrid-blank">
+				<h:panelGroup>		
+					<p:outputLabel value="CPF/CNPJ:"  styleClass="saidanegrito"/>					
+					 <p:inputMask maxlength="18"  value="#{membroController.membro.pessoa.cpfCnpj}" mask="999.999.999-99"  
+					 required="true" requiredMessage="O Campo CPF/CNPJ é Obrigatório!"/>	
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel for="nomeReceita" value="Nome:" styleClass="saidanegrito" />
+					<p:inputText id="nomeReceita" maxlength="150" value="#{membroController.membro.pessoa.nomeReceita}"
+						required="true" requiredMessage="O Campo Nome é Obrigatório!" />
+				</h:panelGroup>
+			</p:panelGrid>	
+			
+			<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+		<p:panel header="Pessoa Fisica">
+			<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" 
+			styleClass="ui-fluid ui-panelgrid-blank">
+
+				<h:panelGroup>
+					<p:outputLabel value="Data de Nascimento:" styleClass="saidanegrito" />
+					<p:calendar locale="de" navigator="true" pattern="dd/MM/yyyy"
+						value="#{membroController.membro.pessoa.dataNascimento}"
+						required="true"	requiredMessage="O Campo Data de Nascimento é Obirgatório!" />
+				</h:panelGroup>
+				
+<!-- 				<h:panelGroup> -->
+<!-- 					<p:outputLabel value="Estado Civil: " styleClass="saidanegrito"/> -->
+<!-- 					<p:selectOneMenu filter="true" value="#{membroController.membro.pessoa.estadoCivil}"  -->
+<!-- 					required="true" requiredMessage="O Campo Estado Civil é Obrigatório!"> -->
+<!-- 						<f:selectItem itemValue="SOLTEIRO(A)" itemLabel="SOLTEIRO(A)" /> -->
+<!-- 						<f:selectItem itemValue="CASADO(A)" itemLabel="CASADO(A)"  /> -->
+<!-- 						<f:selectItem itemValue="VIÚVO(A)" itemLabel="VIÚVO(A)"  /> -->
+<!-- 						<f:selectItem itemValue="DESQUITADO(A)" itemLabel="DESQUITADO(A)"  /> -->
+<!-- 						<f:selectItem itemValue="DIVORCIADO(A)" itemLabel="DIVORCIADO(A)"  /> -->
+<!-- 						<f:selectItem itemValue="SEPARADO(A)" itemLabel="SEPARADO(A)"  /> -->
+<!-- 						<f:selectItem itemValue="OUTROS(A)" itemLabel="OUTROS(A)"  /> --> 						
+<!-- 					</p:selectOneMenu> -->
+<!-- 				</h:panelGroup> -->
+
+				<h:panelGroup>
+					<p:outputLabel value="Tipo Documento: " styleClass="saidanegrito" />
+					<p:selectOneMenu filter="true" value="#{membroController.membro.pessoa.tipoDocumento}"
+						required="true" requiredMessage="O Campo Tipo Documento é Obrigatório!">
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione um tipo " />
+						<f:selectItems value="#{membroController.listaEnumTipoDocumento}" var="td" itemValue="#{td}" 
+						itemLabel="#{td.descricao}" />
+					</p:selectOneMenu>
+				</h:panelGroup>
+
+				<h:panelGroup>
+					<p:outputLabel value="Número do Documento:"	styleClass="saidanegrito" />
+					<p:inputText maxlength="25" value="#{membroController.membro.pessoa.numeroDocumento}"
+						required="true"	requiredMessage="O Campo Número do Documento é Obrigatório!" />
+				</h:panelGroup>
+
+				<h:panelGroup>
+					<p:outputLabel value="Orgão Emissor: " styleClass="saidanegrito" />
+					<p:inputText maxlength="20"	value="#{membroController.membro.pessoa.orgaoEmissor}"
+						required="true"	requiredMessage="O Campo Número do Documento é Obrigatório!" placeholder="Ex. SSP/SP" />
+				</h:panelGroup>
+				
+			</p:panelGrid>
+			
+			<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4" 
+			styleClass="ui-fluid ui-panelgrid-blank">	
+				
+				<h:panelGroup>
+					<p:outputLabel value="Telefone:" styleClass="saidanegrito" />
+					<p:inputText maxlength="20" value="#{membroController.membro.pessoa.telefone}" required="true" 
+					requiredMessage="O Campo Telefone é Obrigatório!" />
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="E-mail: " styleClass="saidanegrito" />
+					<p:inputText maxlength="250" value="#{membroController.membro.pessoa.email}"
+						required="true"	requiredMessage="O Campo E-mail é Obrigatório!" >
+					</p:inputText>
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<p:outputLabel value="Nacionalidade: " styleClass="saidanegrito"/>
+					<p:inputText maxlength="30" value="#{membroController.membro.pessoa.nacionalidade}" 
+					required="true" requiredMessage="O Campo Nacionalidade é Obrigatório!" placeholder="Ex. BRASILEIRO" />
+				</h:panelGroup>
+
+ 				
+				
+			</p:panelGrid>
+			<p></p>
+			<p:panelGrid id="pnlEnderecoPf"  columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+				<p:panel header="Endereço">
+					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2"
+						styleClass="ui-fluid ui-panelgrid-blank">
+
+						<h:panelGroup>
+							<p:outputLabel value="CEP:" styleClass="saidanegrito" />
+							<p:inputText maxlength="12"	value="#{membroController.membro.pessoa.cep}"
+								required="true" requiredMessage="O Campo CEP é Obrigatório!">
+								<p:ajax event="blur" listener="#{membroController.consultaCEP}"  />
+							</p:inputText>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:outputLabel value="Logradouro:" styleClass="saidanegrito" />
+							<p:inputText maxlength="70" value="#{membroController.membro.pessoa.logradouro}"
+								required="true"	requiredMessage="O Campo Logradouro é Obrigatório!" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:outputLabel value="Número:" styleClass="saidanegrito" />
+							<p:inputText maxlength="10"	value="#{membroController.membro.pessoa.numero}"
+								required="true" requiredMessage="O Campo Número é Obrigatório!"	placeholder="Ex. 1020" />
+						</h:panelGroup>
+
+					</p:panelGrid>
+					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-5,ui-grid-col-5,ui-grid-col-2"
+						styleClass="ui-fluid ui-panelgrid-blank">
+
+						<h:panelGroup>
+							<p:outputLabel value="Bairro:" styleClass="saidanegrito" />
+							<p:inputText maxlength="70"	value="#{membroController.membro.pessoa.bairro}"
+								required="true" requiredMessage="O Campo Bairro é Obrigatório!" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:outputLabel value="Cidade:" styleClass="saidanegrito" />
+							<p:inputText maxlength="70" value="#{membroController.membro.pessoa.cidade}"
+								required="true" requiredMessage="O Campo Cidade é Obrigatório!" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:outputLabel value="Sigla Estado:" styleClass="saidanegrito" />
+							<p:inputText maxlength="3" value="#{membroController.membro.pessoa.estadoSigla}"
+								required="true" requiredMessage="O Campo Sigla Estado é Obrigatório!" />
+						</h:panelGroup>
+
+					</p:panelGrid>
+				</p:panel>
+			</p:panelGrid>
+		</p:panel>
+
+	</p:panelGrid>
+	
+<!-- 	<p:tabView id="tab" onTabShow="PF('dlgFuncionario').initPosition();" dynamic="false" cache="false" rendered="#{funcionarioController.funcionario.id != null}"> -->
+<!-- 					<p:tab title="Endereço"> -->
+<!-- 						<p:commandButton value="Endereço" icon="fa fa-plus" oncomplete="PF('CadEndereco').show();" actionListener="#{funcionarioController.novoEndereco}"  -->
+<!-- 						update=":msgGlobal :FormCadEndereco:PnlCadEndereco" immediate="true" styleClass="btn-primary" /> -->
+<!-- 						<p:dataTable id="endereco" emptyMessage="Nenhum Endereço cadastrado" value="#{funcionarioController.listaFuncionarioPonteEndereco}" reflow="true" -->
+<!-- 						var="endereco"> -->
+
+<!-- 							<p:column headerText="CEP" width="9%"> -->
+<!-- 								<h:outputText value="#{endereco.endereco.cep}" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Rua/Av." width="29%"> -->
+<!-- 								<h:outputText value="#{endereco.endereco.rua}" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Número" width="7%"> -->
+<!-- 								<h:outputText value="#{endereco.endereco.numero}" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Bairro" width="15%"> -->
+<!-- 								<h:outputText value="#{endereco.endereco.bairro}" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Cidade e Estado" width="30%"> -->
+<!-- 								<h:outputText -->
+<!-- 									value="#{endereco.endereco.cidade} - #{endereco.endereco.estadoSigla}" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Opções" width="10%"> -->
+<!-- 								<p:commandButton icon="ui-icon-pencil" styleClass="btn-warning" actionListener="#{funcionarioController.editarEndereco}"  -->
+<!-- 								oncomplete="PF('CadEndereco').show(); PF('CadEndereco').initPosition();" update=":FormCadEndereco:PnlCadEndereco" immediate="true"> -->
+<!-- 									<f:attribute name="enderecoSelecionado" value="#{endereco}" /> -->
+<!-- 								</p:commandButton> -->
+
+<!-- 								<p:commandButton styleClass="btn-danger" icon="fa fa-trash-o" actionListener="#{funcionarioController.excluirEndereco}" update=":FormCadFuncionario:tab:endereco"  -->
+<!-- 								process="@this" immediate="true"> -->
+<!-- 									<p:confirm header="Confirmar" message="Deseja Excluir o Endereço" icon="ui-icon-alert" /> -->
+<!-- 									<f:attribute name="enderecoSelecionado" value="#{endereco}" /> -->
+<!-- 								</p:commandButton> -->
+<!-- 							</p:column> -->
+<!-- 						</p:dataTable> -->
+<!-- 					</p:tab> -->
+			
+			
+			
+			<p></p>
+			<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+				<p:commandButton value="Gravar" icon="fa fa-check"	actionListener="#{membroController.salvar}"	
+					update=":msgGlobal :frmMVD :FormCadmembro" styleClass="btn-success"/> 
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+	
+<!-- 	<ui:include src="./cadastroRapido.xhtml" /> -->
+
+	</ui:define>
+</ui:composition>

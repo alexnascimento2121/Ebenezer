@@ -1,0 +1,128 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+                
+    <ui:define name="head-end">
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>            
+
+	<ui:define name="title">
+		<h:form id="frmMVD" enctype="multipart/form-data" >
+			<p:panel header="Instituição Cadastrada">
+				<p:dataTable id="tabela" emptyMessage="Nenhuma Instituição encontrada" paginator="true"	rows="10" reflow="true"
+				value="#{instituicaoController.listaInstituicao}" var="instituicao" paginatorPosition="bottom">
+
+					<p:column headerText="ID" width="5%" filterBy="#{instituicao.id}" styleClass="ui-fluid">
+						<h:outputText value="#{instituicao.id}" />
+					</p:column>
+					
+					<p:column headerText="Nome da Instituição" width="45%" filterBy="#{instituicao.descricao}" styleClass="ui-fluid">
+						<h:outputText value="#{instituicao.descricao}" />
+					</p:column>
+
+					<p:column headerText="Codigo" width="15%" filterBy="#{instituicao.codigo}" styleClass="ui-fluid">
+						<h:outputText value="#{instituicao.codigo}" />
+					</p:column>					
+
+					<p:column headerText="Data de Cadastro" width="15%">
+						<h:outputText value="#{instituicao.dataCadastro}" >
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho"/>
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Opções" width="20%" style="text-align: center;">
+						<p:commandButton icon="fa fa-pencil" actionListener="#{instituicaoController.editarInstituicao}" 
+						update=":msgGlobal :FormCadInstituicao" oncomplete="PF('dlgInstituicao').show();" styleClass="btn-warning">
+							<f:attribute name="instituicaoSelecionada" value="#{instituicao}" />
+						</p:commandButton>						
+						
+					</p:column>
+					
+				</p:dataTable>
+				<br></br>
+				<p:commandButton value="Novo" icon="fa fa-plus" oncomplete="PF('dlgInstituicao').show();" 
+				actionListener="#{instituicaoController.novo}" update=":msgGlobal :FormCadInstituicao" styleClass="btn-primary" />
+			</p:panel>
+		</h:form>
+
+
+		<p:dialog header="Cadastro de Instituições" widgetVar="dlgInstituicao" draggable="false" resizable="false" modal="true" 
+		closable="true" appendTo="@(body)" responsive="true" styleClass="dialogoSemAltura" height="90%">
+			<h:form id="FormCadInstituicao">
+				<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-8,ui-grid-col-2,ui-grid-col-2" 
+				styleClass="ui-fluid ui-panelgrid-blank">
+							
+					<h:panelGroup>
+					<p:outputLabel value="Nome da Instituição: " styleClass="saidanegrito"/>
+					<p:inputText filter="true" value="#{instituicaoController.instituicao.descricao}" 
+					required="true" requiredMessage="O Campo Nome Instituiçao é Obrigatório!"/>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Código " styleClass="saidanegrito"/>
+					<p:inputText value="#{instituicaoController.instituicao.codigo}" 
+					required="true" requiredMessage="O Campo Código é Obrigatório!"/>
+					</h:panelGroup>
+										
+					<h:panelGroup>
+					<p:outputLabel value="Data de Cadastro: " styleClass="saidanegrito"/>
+					<p:inputText value="#{instituicaoController.instituicao.dataCadastro}" readonly="true" >
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho"/>
+					</p:inputText>
+					</h:panelGroup>
+				
+				</p:panelGrid>
+				<p />
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-panelgrid-blank">
+					
+					<p:commandButton id="idTipoInstituicao" icon="fa fa-plus" value="Novo" oncomplete="PF('dlgTipInst').show();" 
+					actionListener="#{tipoUnidadeInstituicaoController.novo}" update=":msgGlobal :FormTipInstituicao" 
+					immediate="true" styleClass="btn-primary" />
+					<p:tooltip for="idTipoInstituicao" value=" Novo Tipo Instituicao " position="top" />	
+					
+					<p:dataTable>
+					
+					
+					</p:dataTable>
+					
+				</p:panelGrid>
+
+				<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+					<p:commandButton value="Gravar" icon="fa fa-check" actionListener="#{instituicaoController.salvarInstituicao}" 
+					update=":msgGlobal :frmMVD :FormCadInstituicao" styleClass="btn-success"/>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>	
+		
+		<p:dialog header="Cadastro de Tipo de Instituição" widgetVar="dlgTipInst" draggable="false" resizable="false" modal="true" 
+		closable="true" appendTo="@(body)" responsive="true" styleClass="dialogoSemAltura" height="90%" >
+			<h:form id="FormTipInstituicao">
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-fluid ui-panelgrid-blank">
+										
+					<h:panelGroup>
+					<p:outputLabel value="Nome do Tipo da Instituição: " styleClass="saidanegrito"/>
+					<p:inputText filter="true" value="#{tipoUnidadeInstituicaoController.tipoUnidadeInstituicao.descricao}" 
+					required="true" requiredMessage="O Campo Nome do tipo da Instituiçao é Obrigatório!"/>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+					<p:outputLabel value="Data de Cadastro: " styleClass="saidanegrito"/>
+					<p:inputText value="#{tipoUnidadeInstituicaoController.tipoUnidadeInstituicao.dataCadastro}" readonly="true" >
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Porto_Velho"/>
+					</p:inputText>
+					</h:panelGroup>					
+				</p:panelGrid>	
+				
+				<p:panelGrid columns="2"  columnClasses="ui-grid-col-6" styleClass="ui-panelgrid-blank">
+					<p:commandButton value="Gravar" icon="fa fa-check" actionListener="#{tipoUnidadeInstituicaoController.salvar}" 
+					update=":msgGlobal :frmMVD :FormCadInstituicao :FormTipInstituicao" styleClass="btn-success"/>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>	
+		
+    </ui:define>
+</ui:composition>
